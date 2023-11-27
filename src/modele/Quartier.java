@@ -57,6 +57,8 @@ public class Quartier {
         this.caracteristiques = caracteristiques;
     }
 
+    public Quartier() {}
+
     public Quartier(String nom, String type, int cout, String caracteristiques)
     {
         setNom(nom);
