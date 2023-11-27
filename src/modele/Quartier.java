@@ -57,13 +57,19 @@ public class Quartier {
         this.caracteristiques = caracteristiques;
     }
 
-    public Quartier() {}
+    public Quartier() {
+        setNom("");
+        setType("");
+        setCoutConstruction(0);
+        setCaracteristiques("");
+    }
 
     public Quartier(String nom, String type, int cout)
     {
         setNom(nom);
         setType(type);
         setCoutConstruction(cout);
+        setCaracteristiques("");
     }
 
     public Quartier(String nom, String type, int cout, String caracteristiques)
