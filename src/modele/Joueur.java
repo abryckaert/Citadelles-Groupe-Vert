@@ -80,7 +80,7 @@ public class Joueur {
 
     public void ajouterQuartierDansCite(Quartier q)
     {
-        cite.add(nbQuartiersDansCite()+1,q);
+        cite.add(nbQuartiersDansCite(),q);
     }
 
     public boolean quartierPresentDansCite(String nomQuartier)
@@ -89,15 +89,10 @@ public class Joueur {
         // on itère sur l'Arraylist
         for (int i = 0; i < nbQuartiersDansCite(); i++) {
             // si le nom du quartier est le même que celui du quartier sur lequel on itère
-            if (nomQuartier.equals(cite.get(i).toString()))
+            if (nomQuartier.equals(cite.get(i).getNom()))
             {
                 // on dit que le quartier existe et on sort de la condition
                 quartierPresent = true;
-                break;
-            }
-            else
-            {
-                quartierPresent = false;
             }
         }
         return quartierPresent;
@@ -131,18 +126,23 @@ public class Joueur {
         mainJoueur.add(quartier);
     }
 
-    public void retirerQuartierDansMain()
+    public Quartier retirerQuartierDansMain()
     {
         Random generateur = new Random();
         // génère un nombre au hasard entre 0 et le nombre de quartiers dans la main
         int numeroHasard = generateur.nextInt(this.nbQuartiersDansMain());
+        // quartier retiré
+        Quartier quartierRetire = null;
         // si on a 1 ou plus de quartiers dans notre main :
         if (nbQuartiersDansMain() > 0) {
+            quartierRetire = mainJoueur.get(numeroHasard);
             // c'est le quartier à cet index qu'on retire
             mainJoueur.remove(numeroHasard);
-        } else if ( nbQuartiersDansMain() == 0) {
+        } else if (nbQuartiersDansMain() == 0) {
             // traiter le cas où la méthode renvoie null
+            quartierRetire = null;
         }
+        return quartierRetire;
     }
 
     public void reinitialiser()

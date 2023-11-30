@@ -67,7 +67,7 @@ public class Personnage {
         }
     }
 
-    public void ajouterQuartierDansMain(Quartier nouveau)
+    public void ajouterQuartier(Quartier nouveau)
     {
         if (joueur != null && !getEstAssassine())
         {
