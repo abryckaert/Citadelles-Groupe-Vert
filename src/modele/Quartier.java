@@ -24,7 +24,7 @@ public class Quartier {
     public void setType(String type) {
         for (String type_quartier:
              TYPE_QUARTIERS) {
-            if (type.equalsIgnoreCase(type_quartier)) {
+            if (type.equals(type_quartier)) {
                 this.type = type;
                 break;
             }
