@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Joueur {
 
@@ -102,18 +103,56 @@ public class Joueur {
         return quartierPresent;
     }
 
-    public void retirerQuartierDansCite(String q)
+    public void retirerQuartierDansCite(String nomQuartier)
     {
-        if (quartierPresentDansCite(q))
+        // si le quartier est présent dans la cité, alors
+        if (quartierPresentDansCite(nomQuartier))
         {
-            // on cherche à quel id ça correspond
+            // on itère sur les quartiers présents sur la cité
+            for (int i = 0; i < nbQuartiersDansCite(); i++) {
+                // si le nom du quartier i de la cité est le même que celui indiqué
+                if (cite.get(i).getNom().equals(nomQuartier))
+                {
+                    // on enlève le quartier de la main
+                    cite.remove(i);
+                }
+            }
 
-            // puis on retire le quartier
         }
         else
         {
             // on envoie un message d'erreur
+            System.out.println("Le quartier n'est pas présent dans la cité");
         }
+    }
+
+    public void ajouterQuartierDansMain(Quartier quartier)
+    {
+        mainJoueur.add(quartier);
+    }
+
+    public void retirerQuartierDansMain()
+    {
+        Random generateur = new Random();
+        // génère un nombre au hasard entre 0 et le nombre de quartiers dans la main
+        int numeroHasard = generateur.nextInt(this.nbQuartiersDansMain());
+        // si on a 1 ou plus de quartiers dans notre main :
+        if (nbQuartiersDansMain() > 0) {
+            // c'est le quartier à cet index qu'on retire
+            mainJoueur.remove(numeroHasard);
+        } else if ( nbQuartiersDansMain() == 0) {
+            // traiter le cas où la méthode renvoie null
+        }
+    }
+
+    public void reinitialiser()
+    {
+        // retire autant de pièces que ce que le joueur en a
+        retirerPieces(getTresor());
+        // vide l'arraylist mainJoueur
+        mainJoueur.clear();
+        // vide l'arraylist cité
+        cite.clear();
     }
 
 
