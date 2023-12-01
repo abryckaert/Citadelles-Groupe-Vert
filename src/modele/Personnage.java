@@ -8,6 +8,7 @@ public class Personnage {
     private Joueur joueur;
     private boolean estAssassine;
     private boolean estVole;
+    private PlateauDeJeu plateau;
 
     public Personnage(String nom, int rang, String caracteristiques, int nbPermisDeConstruire)
     {
@@ -37,6 +38,14 @@ public class Personnage {
 
     public Joueur getJoueur() {
         return joueur;
+    }
+
+    public PlateauDeJeu getPlateau() {
+        return plateau;
+    }
+
+    public void setPlateau(PlateauDeJeu plateau) {
+        this.plateau = plateau;
     }
 
     public boolean getEstAssassine() {
