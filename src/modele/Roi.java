@@ -3,7 +3,7 @@ package modele;
 public class Roi extends Personnage {
     public Roi()
     {
-        super("Roi",4,Caracteristiques.ROI,1);
+        super("Roi",4,"ROI",1);
     }
 
     @Override

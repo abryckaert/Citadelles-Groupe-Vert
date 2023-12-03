@@ -15,6 +15,10 @@ public class PlateauDeJeu {
         pioche = new Pioche();
     }
 
+    public PlateauDeJeu getPlateau(){
+        return this;
+    }
+
     public int getNbJoueurs() {
         return nbJoueurs;
     }
@@ -39,18 +43,24 @@ public class PlateauDeJeu {
         return personnageRetourne;
     }
 
-    public void ajouterPersonnage(Personnage nouveau)
-    {
-        // si le personnage passé en paramètre n'est pas null et que le dernier index n'est pas rempli
-        if(getPersonnage(getNbPersonnages()-1) == null && (nouveau != null))
-        {
-            // on ajoute le personnage au premier membre du tableau pas vide
-            listePersonnages[getNbPersonnages()]=nouveau;
-            // association du plateau au personnage ?
-            nouveau.setPlateau(PlateauDeJeu.this);
-            nbPersonnages+=1;
+    public void ajouterPersonnage(Personnage nouveau) {
+        // Vérifier si le personnage passé en paramètre n'est pas null
+        if (nouveau != null) {
+            // Si l'index actuel est inférieur à la taille du tableau
+            if (getNbPersonnages() < listePersonnages.length) {
+                // Ajouter le personnage à l'index actuel
+                listePersonnages[getNbPersonnages()] = nouveau;
+                // Associer le plateau au personnage
+                nouveau.setPlateau(PlateauDeJeu.this);
+                // Incrémenter le nombre de personnages
+                nbPersonnages++;
+            } else {
+                // Le tableau est plein, vous pouvez gérer cela selon vos besoins (par exemple, redimensionner le tableau)
+                System.out.println("Le tableau de personnages est plein.");
+            }
         }
     }
+
 
     public void ajouterJoueur(Joueur nouveau)
     {
