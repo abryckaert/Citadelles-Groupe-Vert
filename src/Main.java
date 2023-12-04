@@ -1,10 +1,7 @@
 import modele.Assassin;
 import modele.Personnage;
 import modele.PlateauDeJeu;
-import test.TestAssassin;
-import test.TestEveque;
-import test.TestMarchande;
-import test.TestVoleur;
+import test.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,7 +16,7 @@ public class Main {
         assassin.utiliserPouvoir();
 
          */
-        TestEveque testAssassin = new TestEveque();
+        TestArchitecte testAssassin = new TestArchitecte();
         testAssassin.test1();
         testAssassin.test2();
     }
