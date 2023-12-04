@@ -2,11 +2,10 @@ package modele;
 
 import java.util.Scanner;
 
-public class Assassin extends modele.Personnage{
-    public Assassin(){
-        super("Assassin", 1, Caracteristiques.ASSASSIN, 1);
+public class Voleur extends modele.Personnage {
+    public Voleur(){
+        super("Voleur", 2, Caracteristiques.VOLEUR, 1);
     }
-
     @Override
     public void utiliserPouvoir() {
         PlateauDeJeu plateau = super.getPlateau();
@@ -15,13 +14,11 @@ public class Assassin extends modele.Personnage{
             for (int i = 0; i <= plateau.getNbPersonnages()-1; i++) {
                 System.out.println(i+1 + ". " + plateau.getPersonnage(i).getNom());
             }
-            /*
-            modifiez l’état du personnage choisi (appel à setAssassine()).
-             */
+
         } else {
-            System.out.println("Le plateau n'est pas défini pour l'assassin.");
+            System.out.println("Le plateau n'est pas défini pour le voleur.");
         }
-        System.out.println("Quel personnage voulez vous assasiner ?");
+        System.out.println("Quel personnage voulez vous voler ?");
         Scanner scanner = new Scanner(System.in);
 
         int maxPersonnage = plateau.getNbPersonnages();
@@ -45,8 +42,8 @@ public class Assassin extends modele.Personnage{
                 System.out.println("Veuillez entrer un nombre valide entre 1 et " + maxPersonnage + ": ");
             }
         }
-        System.out.println("Vous avez choisi d'assasiner le personnage " + plateau.getPersonnage(choixUtilisateur -1 ).getNom());
-        plateau.getPersonnage(choixUtilisateur - 1).setEstAssassine();
+        System.out.println("Vous avez choisi de voler le personnage " + plateau.getPersonnage(choixUtilisateur -1 ).getNom());
+        plateau.getPersonnage(choixUtilisateur - 1).setEstVole();
     }
 
 }

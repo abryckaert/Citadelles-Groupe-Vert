@@ -94,9 +94,10 @@ public class Personnage {
 
     public void percevoirRessourcesSpecifiques()
     {
-        if (joueur != null && !getEstAssassine())
-        {
-            System.out.println("Aucune ressource spécifique");
+        if (joueur != null && !getEstAssassine()) {
+            {
+                System.out.println("Aucune ressource spécifique");
+            }
         }
     }
 
