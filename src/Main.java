@@ -16,9 +16,10 @@ public class Main {
         assassin.utiliserPouvoir();
 
          */
-        TestArchitecte testAssassin = new TestArchitecte();
+        TestCondottiere testAssassin = new TestCondottiere();
         testAssassin.test1();
         testAssassin.test2();
+        testAssassin.test3();
     }
 }
 

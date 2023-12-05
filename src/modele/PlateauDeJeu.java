@@ -62,16 +62,19 @@ public class PlateauDeJeu {
     }
 
 
-    public void ajouterJoueur(Joueur nouveau)
-    {
-        // si le joueur passé en paramètre n'est pas null et que le dernier index n'est pas rempli
-        if(getJoueur(getNbJoueurs()-1) == null && (nouveau != null))
-        {
-            // on ajoute le joueur au premier membre du tableau pas vide
-            listeJoueurs[getNbJoueurs()]=nouveau;
-            nbJoueurs+=1;
+    public void ajouterJoueur(Joueur nouveau) {
+        // Vérifier si le joueur passé en paramètre n'est pas null
+        if (nouveau != null) {
+            // Si l'index actuel est inférieur à la taille du tableau
+            if (getNbJoueurs() < listeJoueurs.length) {
+                // Ajouter le joueur à l'index actuel
+                listeJoueurs[getNbJoueurs()] = nouveau;
+                // Incrémenter le nombre de joueurs
+                nbJoueurs++;
+            } else {
+                // Le tableau est plein, vous pouvez gérer cela selon vos besoins (par exemple, redimensionner le tableau)
+                System.out.println("Le tableau de joueurs est plein.");
+            }
         }
     }
-
-
 }
