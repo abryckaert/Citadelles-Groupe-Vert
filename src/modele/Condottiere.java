@@ -91,21 +91,11 @@ public class Condottiere extends modele.Personnage {
                     }
                 } while (true);
 
-// Stocker le quartier retiré dans une variable
                 Quartier quartierRetire = getPlateau().getJoueur(choixUtilisateurJoueur - 1).getCite().get(choixUtilisateurQuartier - 1);
                 getPlateau().getJoueur(choixUtilisateurJoueur - 1).retirerQuartierDansCite(quartierRetire.getNom());
 
                 System.out.println("On retire " + quartierRetire.getNom() + " à " + getPlateau().getJoueur(choixUtilisateurJoueur-1).getNom());
-//...
-
-//...
-
-//...
-
-//...
-
             }
-            // Fermer le scanner
             scanner.close();
         }
          else {
