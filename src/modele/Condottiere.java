@@ -30,15 +30,22 @@ public class Condottiere extends modele.Personnage {
         // Utiliser la réponse selon votre logique
         if (reponse == 'o') {
 
-            for (int i=0; i<=getPlateau().getNbJoueurs()-1; i++) {
-                ArrayList<Quartier> citeJoueur = getPlateau().getJoueur(i).getCite();
-                System.out.print(i +1 + " " + getPlateau().getJoueur(i).getNom() + ": ");
-                for (int y = 0; y < getPlateau().getJoueur(i).nbQuartiersDansCite(); y++) {
-                    System.out.print(y+1 + " " +citeJoueur.get(y).getNom());
-                    System.out.print(" (coût "+citeJoueur.get(y).getCoutConstruction()+ ")" + ", ");
+            for (int i = 0; i < getPlateau().getNbJoueurs(); i++) {
+                Joueur joueur = getPlateau().getJoueur(i);
+                ArrayList<Quartier> citeJoueur = joueur.getCite();
+
+                System.out.print((i + 1) + " " + joueur.getNom() + ": ");
+
+                for (int y = 0; y < joueur.nbQuartiersDansCite(); y++) {
+                    Quartier quartier = citeJoueur.get(y);
+
+                    System.out.print((y +1) + " " + quartier.getNom());
+                    System.out.print(" (coût " + quartier.getCoutConstruction() + "), ");
                 }
+
                 System.out.println("\n");
             }
+
             int choixUtilisateurJoueur;
 
             do {
@@ -63,6 +70,7 @@ public class Condottiere extends modele.Personnage {
             } else {
                 System.out.println("Quel quartier choisissez vous ?");
                 System.out.println("Votre trésor contient " +getJoueur().getTresor() + " pieces" );
+                //...
                 int choixUtilisateurQuartier;
 
                 do {
@@ -82,14 +90,26 @@ public class Condottiere extends modele.Personnage {
                         System.out.println("Veuillez entrer un nombre valide.");
                     }
                 } while (true);
-                getPlateau().getJoueur(choixUtilisateurJoueur -1).retirerQuartierDansCite(getPlateau().getJoueur(choixUtilisateurJoueur -1).getCite().get(choixUtilisateurQuartier -1).getNom());
+
+// Stocker le quartier retiré dans une variable
+                Quartier quartierRetire = getPlateau().getJoueur(choixUtilisateurJoueur - 1).getCite().get(choixUtilisateurQuartier - 1);
+                getPlateau().getJoueur(choixUtilisateurJoueur - 1).retirerQuartierDansCite(quartierRetire.getNom());
+
+                System.out.println("On retire " + quartierRetire.getNom() + " à " + getPlateau().getJoueur(choixUtilisateurJoueur-1).getNom());
+//...
+
+//...
+
+//...
+
+//...
+
             }
             // Fermer le scanner
             scanner.close();
         }
          else {
             System.out.println("Vous avez choisi de ne pas utiliser votre pouvoir de destruction.");
-            // Ajouter votre logique ici
         }
     }
 
