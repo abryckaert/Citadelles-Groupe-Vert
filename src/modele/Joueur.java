@@ -19,7 +19,7 @@ public class Joueur {
         possedeCouronne = false;
         this.cite = new ArrayList<Quartier>();
         this.mainJoueur = new ArrayList<Quartier>();
-        this.monPersonnage = new Personnage(null);
+        this.monPersonnage = null;
     }
 
     public String getNom() {
