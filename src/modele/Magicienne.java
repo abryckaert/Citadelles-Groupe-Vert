@@ -38,22 +38,28 @@ public class Magicienne extends modele.Personnage {
 
                 // Verification du nom
                 System.out.println("Voulez-vous échanger toutes vos cartes avec celles de " + getPlateau().getJoueur(choixUtilisateur - 1).getNom() + " ? o/n");
-                char reponse = scanner.next().charAt(0);
+                if(!getPlateau().getJoueur(choixUtilisateur - 1).getPersonnage().getNom().equals("Eveque")) {
 
-                if (reponse == 'o') {
-                    // Faire une copie de la main de la magicienne et du joueur choisi
-                    ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMainJoueur());
-                    ArrayList<Quartier> copieMainJoueurChoisi = new ArrayList<>(getPlateau().getJoueur(choixUtilisateur - 1).getMainJoueur());
+                    char reponse = scanner.next().charAt(0);
 
-                    // Vider la main (originale) de la magicienne et celle du joueur choisi
-                    getJoueur().getMainJoueur().clear();
-                    getPlateau().getJoueur(choixUtilisateur - 1).getMainJoueur().clear();
+                    if (reponse == 'o') {
+                        // Faire une copie de la main de la magicienne et du joueur choisi
+                        ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMainJoueur());
+                        ArrayList<Quartier> copieMainJoueurChoisi = new ArrayList<>(getPlateau().getJoueur(choixUtilisateur - 1).getMainJoueur());
 
-                    // Ajouter le contenu des copies dans les mains (originales)
-                    getJoueur().getMainJoueur().addAll(copieMainJoueurChoisi);
-                    getPlateau().getJoueur(choixUtilisateur - 1).getMainJoueur().addAll(copieMainMagicienne);
-                } else {
-                    //Ne rien faire
+                        // Vider la main (originale) de la magicienne et celle du joueur choisi
+                        getJoueur().getMainJoueur().clear();
+                        getPlateau().getJoueur(choixUtilisateur - 1).getMainJoueur().clear();
+
+                        // Ajouter le contenu des copies dans les mains (originales)
+                        getJoueur().getMainJoueur().addAll(copieMainJoueurChoisi);
+                        getPlateau().getJoueur(choixUtilisateur - 1).getMainJoueur().addAll(copieMainMagicienne);
+                    } else {
+                        //Ne rien faire
+                    }
+                }
+                else {
+                    System.out.println("Vous ne pouvez pas attaquer l'Eveque");
                 }
             } else {
                 String choixUtilisateurEchangerTout;
