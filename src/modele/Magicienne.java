@@ -11,7 +11,12 @@ public class Magicienne extends modele.Personnage {
     @Override
     public void utiliserPouvoir() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Vous avez " + getJoueur().nbQuartiersDansMain() + " cartes");
+        System.out.println("Voici vos cartes :");
+        ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMainJoueur());
+
+        for (Quartier quartier : copieMainMagicienne) {
+            System.out.println(quartier.getNom() + " - " + quartier.getType() + " - " + quartier.getCoutConstruction());
+        }
 
         if (!getJoueur().getMainJoueur().isEmpty()) {
             String choixUtilisateurEchanger;
@@ -38,13 +43,12 @@ public class Magicienne extends modele.Personnage {
 
                 // Verification du nom
                 System.out.println("Voulez-vous échanger toutes vos cartes avec celles de " + getPlateau().getJoueur(choixUtilisateur - 1).getNom() + " ? o/n");
-                if(!getPlateau().getJoueur(choixUtilisateur - 1).getPersonnage().getNom().equals("Eveque")) {
+                if(!getPlateau().getPersonnage(choixUtilisateur-1).getNom().equals("Eveque")) {
 
                     char reponse = scanner.next().charAt(0);
 
                     if (reponse == 'o') {
                         // Faire une copie de la main de la magicienne et du joueur choisi
-                        ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMainJoueur());
                         ArrayList<Quartier> copieMainJoueurChoisi = new ArrayList<>(getPlateau().getJoueur(choixUtilisateur - 1).getMainJoueur());
 
                         // Vider la main (originale) de la magicienne et celle du joueur choisi
@@ -54,6 +58,10 @@ public class Magicienne extends modele.Personnage {
                         // Ajouter le contenu des copies dans les mains (originales)
                         getJoueur().getMainJoueur().addAll(copieMainJoueurChoisi);
                         getPlateau().getJoueur(choixUtilisateur - 1).getMainJoueur().addAll(copieMainMagicienne);
+                        System.out.println("Voici votre nouvelle main : ");
+                        for (Quartier quartier : getJoueur().getMainJoueur()) {
+                            System.out.println(quartier.getNom() + " - " + quartier.getType() + " - " + quartier.getCoutConstruction());
+                        }
                     } else {
                         //Ne rien faire
                     }
@@ -69,8 +77,7 @@ public class Magicienne extends modele.Personnage {
                 } while (!choixUtilisateurEchangerTout.equals("o") && !choixUtilisateurEchangerTout.equals("n"));
 
                 if (choixUtilisateurEchangerTout.equals("o")) {
-                    ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMainJoueur());
-                    System.out.println("Vous ajoutez a la pioche toute vos cartes");
+                    System.out.println("Vous ajoutez à la pioche toutes vos cartes");
 
                     // Retirer un à un les quartiers de la main (originale) et les ajouter dans la pioche
                     for (Quartier quartier : getJoueur().getMainJoueur()) {
@@ -85,15 +92,18 @@ public class Magicienne extends modele.Personnage {
                         Quartier nouvelleCarte = getPlateau().getPioche().piocher();
                         getJoueur().ajouterQuartierDansMain(nouvelleCarte);
                     }
+                    System.out.println("Voici votre nouvelle main :");
+                    for (Quartier quartier : getJoueur().getMainJoueur()) {
+                        System.out.println(quartier.getNom() + " - " + quartier.getType() + " - " + quartier.getCoutConstruction());
+                    }
 
                 } else {
                     String choixUtilisateurEchangerCertaine;
                     do {
-                        System.out.println("Voulez-vous échanger certaine de vos carte avec la pioche ? (o/n)");
+                        System.out.println("Voulez-vous échanger certaines de vos cartes avec la pioche ? (o/n)");
                         choixUtilisateurEchangerCertaine = scanner.nextLine().toLowerCase(); // Convertir la réponse en minuscules
                     } while (!choixUtilisateurEchangerCertaine.equals("o") && !choixUtilisateurEchangerCertaine.equals("n"));
                     if (choixUtilisateurEchangerCertaine.equals("o")) {
-                        ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMainJoueur());
 
                         // Afficher toutes les cartes de la copie
                         System.out.println("Voici les cartes de votre main : ");
@@ -103,7 +113,7 @@ public class Magicienne extends modele.Personnage {
 
                         int nbFois;
                         do {
-                            System.out.println("Combien de fois voulez-vous échanger des cartes avec la pioche ?");
+                            System.out.println("Combien de fois voulez-vous échanger vos cartes avec la pioche ?");
                             // Lire la réponse de l'utilisateur
                             try {
                                 nbFois = Integer.parseInt(scanner.nextLine());
@@ -121,7 +131,7 @@ public class Magicienne extends modele.Personnage {
 // Faire une copie de la main de la magicienne
 
 // Afficher toutes les cartes de la copie
-                        System.out.println("Voici les cartes de la copie :");
+                        System.out.println("Vos cartes :");
                         for (Quartier quartier : copieMainMagicienne) {
                             System.out.println(quartier.getNom() + " - " + quartier.getType() + " - " + quartier.getCoutConstruction());
                         }
@@ -147,7 +157,6 @@ public class Magicienne extends modele.Personnage {
                                 } catch (NumberFormatException e) {
                                     System.out.println("Veuillez entrer un nombre valide.");
                                 }
-
                                 // Consommer la ligne suivante pour éviter une boucle infinie
                                 scanner.nextLine();
                             } while (true);
@@ -158,9 +167,13 @@ public class Magicienne extends modele.Personnage {
                             // Ajouter une nouvelle carte de la pioche dans la copie
                             Quartier nouvelleCarte = getPlateau().getPioche().piocher();
                             copieMainMagicienne.add(nouvelleCarte);
+                            System.out.println("Voici les nouvelles cartes :");
+                            for (Quartier quartier : copieMainMagicienne) {
+                                System.out.println(quartier.getNom() + " - " + quartier.getType() + " - " + quartier.getCoutConstruction());
+                            }
                         }
 
-// Vider la main (originale) de la magicienne
+                        // Vider la main (originale) de la magicienne
                         getJoueur().getMainJoueur().clear();
 
 // Ajouter toutes les cartes de la copie dans la main (originale)
