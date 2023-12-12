@@ -4,6 +4,7 @@ import controleur.Interaction;
 import modele.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -198,7 +199,7 @@ public class Jeu {
                     }
 
                     // Si le tableau des noms ne contient pas le nom du joueur (donc que c'est pas le bot)
-                    if (!Arrays.stream(Configuration.noms).toList().contains(plateauDeJeu.getPersonnage(i).getJoueur().getNom())) {
+                    if (!(Arrays.stream(Configuration.noms).toList().contains(plateauDeJeu.getPersonnage(i).getJoueur().getNom()))) {
                         // on perçoit les ressources
                         percevoirRessources(plateauDeJeu.getPersonnage(i));
 
