@@ -46,6 +46,12 @@ public class Voleur extends modele.Personnage {
         System.out.println("Vous avez choisi de voler le personnage " + plateau.getPersonnage(choixUtilisateur -1 ).getNom());
         plateau.getPersonnage(choixUtilisateur - 1).setEstVole();
     }
+
+    @Override
+    public void utiliserPouvoirAvatar() {
+        //
+    }
+
     public void UtiliserPouvoirAvatar(){
         PlateauDeJeu plateau = super.getPlateau();
         Random random = new Random();

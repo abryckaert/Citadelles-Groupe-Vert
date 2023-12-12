@@ -83,14 +83,13 @@ public class Jeu {
 
     }
 
+    private void calculDesPoints() {
+    }
+
     private void reinitialisationPersonnages() {
         for(int i=0 ; i< plateauDeJeu.getNbPersonnages() ; i++){
             plateauDeJeu.getPersonnage(i).reintitialiser();
         }
-    }
-
-    private void gestionCouronne() {
-
     }
 
     private void initialisation() {
@@ -133,7 +132,7 @@ public class Jeu {
                 for(int i = 0 ; i< plateauDeJeu.getNbJoueurs() ; i++){
                     Joueur j = plateauDeJeu.getJoueur(i);
                     if(j.nbQuartiersDansCite() >= 8){
-                        nombre_de_tour=0;
+                        int nombre_de_tour=0;
                         return false;
                     }
                 }
@@ -148,9 +147,7 @@ public class Jeu {
                 }
 
 
-                return true;    }
-
-    private void calculDesPoints() {
-        // Corps vide pour l'instant
+                return true;
+            }
     }
 }
