@@ -35,15 +35,12 @@ public class Roi extends Personnage {
                     }
                 }
                 if(!getJoueur().getPersonnage().getNom().equals("Sorciere")){
-                    System.out.println("	Je prends la couronne");
+                    System.out.println("Je prends la couronne");
                 }
                 super.getJoueur().setPossedeCouronne(true);
-
-
-
             }
             else {
-                System.out.println("	Il n'y a pas de joueur assign�");
+                System.out.println("	Il n'y a pas de joueur assigné");
             }
         }else if(getJoueur() == null){
             System.out.println("	Ce personnage n'a pas été attribué");

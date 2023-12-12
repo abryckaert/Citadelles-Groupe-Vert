@@ -105,11 +105,6 @@ public class Condottiere extends modele.Personnage {
     }
 
     @Override
-    public void utiliserPouvoirAvatar() {
-        //
-    }
-
-    @Override
     public  void percevoirRessourcesSpecifiques() {
         int nombreQuartierMiliraire = 0;
         for (int i = 0; i < getJoueur().nbQuartiersDansCite(); i++) {
@@ -121,7 +116,7 @@ public class Condottiere extends modele.Personnage {
         }
         System.out.println("Vos batiments militaire vous rapporte " + nombreQuartierMiliraire);
     }
-    public void UtiliserPouvoirAvatar(){
+    public void utiliserPouvoirAvatar(){
 
         Random random = new Random();
         boolean utiliserPouvoir = random.nextBoolean();

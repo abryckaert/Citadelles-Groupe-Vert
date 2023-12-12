@@ -6,13 +6,12 @@ public class Architecte extends modele.Personnage{
     }
     @Override
     public void utiliserPouvoir() {
-
-
+        // Aucun pouvoir particulier
     }
 
 
     public void utiliserPouvoirAvatar() {
-
+        // idem
     }
 
     @Override
