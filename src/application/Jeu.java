@@ -114,7 +114,7 @@ public class Jeu {
     }
 
     private void tourDeJeu() {
-
+        choixPersonnages();
     }
 
     private void percevoirRessources(Personnage p) {
