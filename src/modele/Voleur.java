@@ -47,12 +47,7 @@ public class Voleur extends modele.Personnage {
         plateau.getPersonnage(choixUtilisateur - 1).setEstVole();
     }
 
-    @Override
-    public void utiliserPouvoirAvatar() {
-        //
-    }
-
-    public void UtiliserPouvoirAvatar(){
+    public void utiliserPouvoirAvatar(){
         PlateauDeJeu plateau = super.getPlateau();
         Random random = new Random();
 

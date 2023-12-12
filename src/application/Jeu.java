@@ -1,5 +1,6 @@
 package application;
 
+import controleur.Interaction;
 import modele.*;
 
 import java.util.ArrayList;
@@ -70,12 +71,12 @@ public class Jeu {
 
         //Boucle d'organisation de chaque tour
         do{
-            reinitialisationPersonnages();
+            choixPersonnages();
             tourDeJeu();
             gestionCouronne();
-
-
-        }while(partieFinie());
+            reinitialisationPersonnages();
+        }
+        while(partieFinie());
 
         System.out.println("---------PARTIE TERMINEE---------");
 
@@ -109,8 +110,78 @@ public class Jeu {
     }
 
     private void choixPersonnages() {
+        Random random1 = new Random();
+        Random random2 = new Random();
+        Random random3 = new Random();
+        // génère les rangs des cartes mises à l'écart, entre 1 et 8 inclus
+        int carteFaceVisible1 = random1.nextInt(8)+1;
+        int carteFaceVisible2 = random2.nextInt(8)+1;
+        int carteFaceCachee = random3.nextInt(8)+1;
+        int nombreAllouerCartes = plateauDeJeu.getNbJoueurs();
 
+        // Si les 3 nombres sont différents et que le roi n'est pas retourné face visible, alors on affiche le texte
+        if (carteFaceCachee != carteFaceVisible2 && carteFaceCachee != carteFaceVisible1 && carteFaceVisible1 != 4 && carteFaceVisible2 != 4) {
+            System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible1) + " a été retourné face visible !");
+            System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible2) + " a été retourné face visible !");
+            System.out.println("Un personnage a été écarté face cachée ! ");
+        }
+        // sinon on relance la méthode
+        else
+        {
+            choixPersonnages();
+        }
 
+        // affiche qui possède la couronne
+        for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+            if (plateauDeJeu.getJoueur(i).isPossedeCouronne())
+            {
+                System.out.println(plateauDeJeu.getJoueur(i).getNom() + " possède la couronne !");
+            }
+        }
+
+        while(nombreAllouerCartes > 0)
+        {
+            if (nombreAllouerCartes == plateauDeJeu.getNbJoueurs())
+            {
+                for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+                    if (plateauDeJeu.getJoueur(i).isPossedeCouronne())
+                    {
+                        // on lui montre les cartes disponibles
+                        for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
+                            if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2)
+                            {
+                                System.out.println(j + ". " + plateauDeJeu.getPersonnage(j));
+                            }
+                        }
+                        System.out.println("Quel personnage voulez-vous choisir ?");
+                        int personnageAssigne = Interaction.lireUnEntier();
+                        plateauDeJeu.getPersonnage(personnageAssigne).setJoueur(plateauDeJeu.getJoueur(i));
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+                    if (!plateauDeJeu.getJoueur(i).isPossedeCouronne())
+                    {
+                        // on montre les cartes dispo au joueur
+                        for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++)
+                        {
+                            // on vérifie que la carte n'a pas été mise au tapis ni distribuée
+                            if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur() == null)
+                            {
+                                System.out.println(j + ". " + plateauDeJeu.getPersonnage(j));
+                            }
+                        }
+                        System.out.println("Quel personnage voulez-vous choisir ?");
+                        int personnageAssigne = Interaction.lireUnEntier();
+                        plateauDeJeu.getPersonnage(personnageAssigne).setJoueur(plateauDeJeu.getJoueur(i));
+                    }
+                }
+
+            }
+            // une carte de moins à allouer !
+            nombreAllouerCartes--;
+        }
     }
 
     private void tourDeJeu() {
@@ -139,7 +210,6 @@ public class Jeu {
 
     private boolean partieFinie() {
             {
-
                 //Check du nombre de quartier de chaque personnage
                 for(int i = 0 ; i< plateauDeJeu.getNbJoueurs() ; i++){
                     Joueur j = plateauDeJeu.getJoueur(i);

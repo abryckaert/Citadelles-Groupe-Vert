@@ -9,11 +9,12 @@ public class Eveque extends Personnage{
     //Cette protection devra être gérée au niveau des méthodes utiliserPouvoir() des personnages de rang 8.
     @Override
     public void utiliserPouvoir() {
+        // pas de pouvoir spécifique
     }
 
     @Override
     public void utiliserPouvoirAvatar() {
-        //
+        // idem
     }
 
 
