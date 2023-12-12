@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Magicienne extends modele.Personnage {
@@ -189,4 +190,38 @@ public class Magicienne extends modele.Personnage {
             //Ne rien faire
         }
     }
+    public void utiliserPouvoirAvatar(){
+        Random random = new Random();
+        ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMainJoueur());
+        if (!getJoueur().getMainJoueur().isEmpty()) {
+            boolean echangeAvecJoueur = random.nextBoolean();  // Décide aléatoirement s'il faut échanger avec un joueur ou non
+
+            if (echangeAvecJoueur) {
+                // Choisir un joueur aléatoirement, différent de la magicienne
+                int choixJoueur;
+                do {
+                    choixJoueur = random.nextInt(getPlateau().getNbJoueurs());
+                } while (getPlateau().getJoueur(choixJoueur).getNom().equals(getJoueur().getNom()) || getPlateau().getPersonnage(choixJoueur).getNom().equals("Eveque"));
+
+                // Échanger les cartes avec le joueur choisi
+                ArrayList<Quartier> copieMainJoueurChoisi = new ArrayList<>(getPlateau().getJoueur(choixJoueur).getMainJoueur());
+                getJoueur().getMainJoueur().clear();
+                getPlateau().getJoueur(choixJoueur).getMainJoueur().clear();
+                getJoueur().getMainJoueur().addAll(copieMainJoueurChoisi);
+                getPlateau().getJoueur(choixJoueur).getMainJoueur().addAll(copieMainMagicienne);
+
+            } else {
+                // Échanger toutes les cartes avec la pioche
+                for (Quartier quartier : getJoueur().getMainJoueur()) {
+                    getPlateau().getPioche().ajouter(quartier);
+                }
+                getJoueur().getMainJoueur().clear();
+                for (int i = 0; i < copieMainMagicienne.size(); i++) {
+                    Quartier nouvelleCarte = getPlateau().getPioche().piocher();
+                    getJoueur().ajouterQuartierDansMain(nouvelleCarte);
+                }
+            }
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Assassin extends modele.Personnage{
@@ -38,7 +39,7 @@ public class Assassin extends modele.Personnage{
                 // Vérifier si le nombre est compris entre 1 et maxPersonnage
                 if (choixUtilisateur >= 1 && choixUtilisateur <= maxPersonnage && plateau.getPersonnage(choixUtilisateur -1) != this) {
                     break; // Sortir de la boucle si le nombre est valide
-                } else {
+                }else {
                     System.out.println("Veuillez entrer un nombre entre 1 et " + maxPersonnage + ": ");
                 }
             } catch (NumberFormatException e) {
@@ -48,5 +49,23 @@ public class Assassin extends modele.Personnage{
         System.out.println("Vous avez choisi d'assasiner le personnage " + plateau.getPersonnage(choixUtilisateur -1 ).getNom());
         plateau.getPersonnage(choixUtilisateur - 1).setEstAssassine();
     }
+    public void utiliserPouvoirAvatar(){
+        PlateauDeJeu plateau = super.getPlateau();
+        Random random = new Random();
 
+        if (plateau != null) {
+            int maxPersonnage = plateau.getNbPersonnages();
+            int choixAuto;
+            while (true) {
+                choixAuto = random.nextInt(maxPersonnage) + 1;
+                if (plateau.getPersonnage(choixAuto - 1) != this) {
+                    break;
+                }
+            }
+            System.out.println("L'avatar a choisi de tuer le personnage " + plateau.getPersonnage(choixAuto - 1).getNom());
+            plateau.getPersonnage(choixAuto - 1).setEstAssassine();
+        } else {
+            System.out.println("Le plateau n'est pas défini pour le personnage.");
+        }
+    }
 }

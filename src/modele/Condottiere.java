@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Condottiere extends modele.Personnage {
@@ -104,6 +105,11 @@ public class Condottiere extends modele.Personnage {
     }
 
     @Override
+    public void utiliserPouvoirAvatar() {
+        //
+    }
+
+    @Override
     public  void percevoirRessourcesSpecifiques() {
         int nombreQuartierMiliraire = 0;
         for (int i = 0; i < getJoueur().nbQuartiersDansCite(); i++) {
@@ -115,4 +121,38 @@ public class Condottiere extends modele.Personnage {
         }
         System.out.println("Vos batiments militaire vous rapporte " + nombreQuartierMiliraire);
     }
+    public void UtiliserPouvoirAvatar(){
+
+        Random random = new Random();
+        boolean utiliserPouvoir = random.nextBoolean();
+
+        if (utiliserPouvoir) {
+            int nombreDeJoueurs = getPlateau().getNbJoueurs();
+
+            // Choisir un joueur au hasard (autre que soi-même)
+            int choixJoueur;
+            do {
+                choixJoueur = random.nextInt(nombreDeJoueurs);
+            } while (choixJoueur == this.getRang()); // Supposons que getJoueur() renvoie l'indice du joueur actuel
+
+            Joueur joueurCible = getPlateau().getJoueur(choixJoueur);
+            ArrayList<Quartier> citeJoueur = joueurCible.getCite();
+
+            if (!citeJoueur.isEmpty()) {
+                // Choisir un quartier au hasard dans la cité du joueur ciblé
+                int choixQuartier = random.nextInt(joueurCible.nbQuartiersDansCite());
+
+                Quartier quartierCible = citeJoueur.get(choixQuartier);
+                joueurCible.retirerQuartierDansCite(quartierCible.getNom());
+
+                System.out.println("L'avatar a détruit le quartier " + quartierCible.getNom() + " appartenant à " + joueurCible.getNom());
+            } else {
+                System.out.println("Le joueur ciblé n'a pas de quartiers à détruire.");
+            }
+        } else {
+            System.out.println("L'avatar a choisi de ne pas utiliser son pouvoir de destruction.");
+        }
+    }
+
 }
+

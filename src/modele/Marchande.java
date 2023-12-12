@@ -20,6 +20,18 @@ public class Marchande extends Personnage {
                 getJoueur().ajouterPieces(1);
             }
         }
-        System.out.println("Vos batiments religieux vous rapporte " + nombreQuartierCommercant);
+        System.out.println("Vos batiments religieux vous rapportent " + nombreQuartierCommercant);
     }
+    public void utiliserPouvoirAvatar(){
+        if(!getEstAssassine()){
+            getJoueur().ajouterPieces(1);
+        }
+        else if(getJoueur() == null){
+            System.out.println("Ce personnage n'a pas été attribué");
+        }else{
+            System.out.println("Vous avez été assassiné, vous ne pouvez pas utiliser votre pouvoir");
+        }
+    }
+
 }
+

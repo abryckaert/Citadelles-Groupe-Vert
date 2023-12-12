@@ -26,4 +26,29 @@ public class Roi extends Personnage {
             System.out.println(nbQuartierNoble + " pièces ont été ajoutées à la bourse de " + getJoueur().getNom());
         }
     }
+    public void utiliserPouvoirAvatar() {
+        if(!getEstAssassine()){
+            if (super.getJoueur() != null) {
+                for(int i=0; i< getPlateau().getNbJoueurs();i++){
+                    if(getPlateau().getJoueur(i).isPossedeCouronne()){
+                        getPlateau().getJoueur(i).setPossedeCouronne(false);
+                    }
+                }
+                if(!getJoueur().getPersonnage().getNom().equals("Sorciere")){
+                    System.out.println("	Je prends la couronne");
+                }
+                super.getJoueur().setPossedeCouronne(true);
+
+
+
+            }
+            else {
+                System.out.println("	Il n'y a pas de joueur assign�");
+            }
+        }else if(getJoueur() == null){
+            System.out.println("	Ce personnage n'a pas été attribué");
+        }else{
+            System.out.println("	Vous avez été assassiné, vous ne pouvez pas utiliser votre pouvoir");
+        }
+    }
 }

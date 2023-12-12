@@ -11,6 +11,7 @@ public class Joueur {
     private ArrayList<Quartier> mainJoueur;
     private boolean possedeCouronne;
     private Personnage monPersonnage;
+    private boolean avatar;
 
     public Joueur(String nom)
     {
@@ -25,7 +26,6 @@ public class Joueur {
     public String getNom() {
         return nom;
     }
-
     public int getTresor() {
         return tresor;
     }
@@ -38,7 +38,7 @@ public class Joueur {
         return mainJoueur;
     }
 
-    public boolean getPossedeCouronne() {
+    public boolean isPossedeCouronne() {
         return possedeCouronne;
     }
 
@@ -160,6 +160,13 @@ public class Joueur {
         // vide l'arraylist cité
         cite.clear();
     }
-
-
+    public void setAvatar(){
+        this.avatar=true;
+    }
+    public boolean isAvatar(){
+        return avatar;
+    }
+    public Personnage getAllPersonnage(){
+        return this.monPersonnage;
+    }
 }

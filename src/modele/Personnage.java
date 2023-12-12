@@ -1,6 +1,6 @@
 package modele;
 
-public class Personnage {
+public abstract class Personnage {
     private String nom;
     private int rang;
     private String caracteristiques;
@@ -109,11 +109,16 @@ public class Personnage {
         }
     }
 
-    public void reinitialiser()
+    public void reintitialiser()
     {
+        if(this.joueur !=null){
+            this.joueur.getAllPersonnage().reintitialiser();
+        }
         joueur = null;
         estAssassine = false;
         estVole = false;
     }
+
+    public abstract void utiliserPouvoirAvatar();
 
 }
