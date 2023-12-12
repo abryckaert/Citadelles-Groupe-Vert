@@ -113,10 +113,10 @@ public class Jeu {
         Random random1 = new Random();
         Random random2 = new Random();
         Random random3 = new Random();
-        // génère les rangs des cartes mises à l'écart, entre 1 et 8 inclus
-        int carteFaceVisible1 = random1.nextInt(8)+1;
-        int carteFaceVisible2 = random2.nextInt(8)+1;
-        int carteFaceCachee = random3.nextInt(8)+1;
+        // génère les rangs des cartes mises à l'écart, entre 0 inclus et 8 exclus
+        int carteFaceVisible1 = random1.nextInt(8);
+        int carteFaceVisible2 = random2.nextInt(8);
+        int carteFaceCachee = random3.nextInt(8);
         int nombreAllouerCartes = plateauDeJeu.getNbJoueurs();
 
         // Si les 3 nombres sont différents et que le roi n'est pas retourné face visible, alors on affiche le texte
