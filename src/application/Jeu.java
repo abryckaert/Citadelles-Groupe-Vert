@@ -210,16 +210,16 @@ public class Jeu {
 
     private boolean partieFinie() {
             {
-                //Check du nombre de quartier de chaque personnage
-                for(int i = 0 ; i< plateauDeJeu.getNbJoueurs() ; i++){
+                // Check du nombre de quartier de chaque joueur
+
+                for (int i = 0 ; i< plateauDeJeu.getNbJoueurs() ; i++){
                     Joueur j = plateauDeJeu.getJoueur(i);
-                    if(j.nbQuartiersDansCite() >= 8){
-                        int nombre_de_tour=0;
+                    if (j.nbQuartiersDansCite() >= 8){
                         return false;
                     }
                 }
 
-                //Check du nombre de quartier dans la pioche et de la possibilité d'un personnage de finir
+                // Check du nombre de quartier dans la pioche et de la possibilité d'un personnage de finir
                 if(plateauDeJeu.getPioche().nombreQuartiersDansPioche()==0){
 
                     for(int i=0 ; i <plateauDeJeu.getNbJoueurs() ; i++){
