@@ -93,7 +93,19 @@ public class Jeu {
     }
 
     private void initialisation() {
+        Configuration config = new Configuration();
+        Pioche pioche = Configuration.nouvellePioche();
+        PlateauDeJeu plateauDeJeu = config.configurationDeBase(pioche, 4, 4);
 
+        for (int i = 0; i<plateauDeJeu.getNbJoueurs(); i++){
+            plateauDeJeu.getJoueur(i).ajouterPieces(2);
+            plateauDeJeu.getJoueur(i).ajouterQuartierDansCite(pioche.piocher());
+            plateauDeJeu.getJoueur(i).ajouterQuartierDansCite(pioche.piocher());
+        }
+
+        Random random = new Random();
+        int nombreAleatoire = random.nextInt(plateauDeJeu.getNbJoueurs());
+        plateauDeJeu.getJoueur(nombreAleatoire).setPossedeCouronne(true);
     }
 
     private void choixPersonnages() {

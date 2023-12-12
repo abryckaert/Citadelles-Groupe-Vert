@@ -3,6 +3,7 @@ package application;
 import modele.*;
 
 import java.util.Random;
+import java.util.Scanner;
 
 
 public class Configuration {
@@ -117,11 +118,10 @@ public class Configuration {
 
         PlateauDeJeu Pl = new PlateauDeJeu();
 
-
-        System.out.println("Quel est votre nom ? ");
-        // nom=Interaction.lireUneChaine();
-        // Joueur J1 = new Joueur(nom);
-        Joueur J1 = new Joueur("nom");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Quel est votre nom ?");
+        String nom = scanner.nextLine();
+        Joueur J1 = new Joueur(nom);
         J1.setAvatar();
 
         Pl.ajouterJoueur(J1);
