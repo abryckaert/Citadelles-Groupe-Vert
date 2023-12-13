@@ -9,25 +9,24 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Jeu {
-    private PlateauDeJeu plateauDeJeu;
     private int numeroConfiguration;
     private Random generateur;
+    Configuration config = new Configuration();
+    Pioche pioche = Configuration.nouvellePioche();
+    PlateauDeJeu plateauDeJeu = config.configurationDeBase(pioche, 4, 8);
 
     public Jeu() {
         // Initialisation des attributs
-        this.plateauDeJeu = new PlateauDeJeu();
         this.numeroConfiguration = 0;
         this.generateur = new Random();
+        jouer();
     }
 
     public void jouer() {
         Scanner scanner = new Scanner(System.in);
         boolean quitter = false;
 
-        afficherLesRegles();
-
         while (!quitter) {
-            afficherLesRegles();
             System.out.println("Veuillez choisir une option :");
             System.out.println("1. Jouer une partie");
             System.out.println("2. Afficher les règles");
@@ -151,7 +150,7 @@ public class Jeu {
                         for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
                             if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2)
                             {
-                                System.out.println(j + ". " + plateauDeJeu.getPersonnage(j));
+                                System.out.println(j + ". " + plateauDeJeu.getPersonnage(j).getNom());
                             }
                         }
                         System.out.println("Quel personnage voulez-vous choisir ?");

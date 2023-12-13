@@ -160,11 +160,6 @@ public class Configuration {
         for(int i=0 ; i< 100 ;i++){
             p.melanger();
         }
-
-
-        Pl.getPioche();
-
-
         return Pl;
     }
 }
