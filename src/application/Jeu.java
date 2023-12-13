@@ -121,8 +121,8 @@ public class Jeu {
 
         // Si les 3 nombres sont différents et que le roi n'est pas retourné face visible, alors on affiche le texte
         if (carteFaceCachee != carteFaceVisible2 && carteFaceCachee != carteFaceVisible1 && carteFaceVisible1 != 4 && carteFaceVisible2 != 4) {
-            System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible1) + " a été retourné face visible !");
-            System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible2) + " a été retourné face visible !");
+            System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible1).getNom() + " \" a été retourné face visible !");
+            System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible2).getNom() + " \" a été retourné face visible !");
             System.out.println("Un personnage a été écarté face cachée ! ");
         }
         // sinon on relance la méthode
@@ -184,158 +184,158 @@ public class Jeu {
         }
     }
 
-        private void tourDeJeu () {
-            choixPersonnages();
-            for (int i = 0; i < plateauDeJeu.getNbPersonnages(); i++) {
-                // si le personnage n'est pas assassiné
-                if (!plateauDeJeu.getPersonnage(i).getEstAssassine()) {
-                    // si le personnage est volé
-                    if (plateauDeJeu.getPersonnage(i).getEstVole()) {
-                        int piecesVole = plateauDeJeu.getPersonnage(i).getJoueur().getTresor();
-                        // on ajoute les pièces au Voleur et on retire les pièces à la personne volée
-                        plateauDeJeu.getPersonnage(1).getJoueur().ajouterPieces(piecesVole);
-                        plateauDeJeu.getPersonnage(i).getJoueur().retirerPieces(piecesVole);
-                    }
-
-                    // Si le tableau des noms ne contient pas le nom du joueur (donc que c'est pas le bot)
-                    if (!(Arrays.stream(Configuration.noms).toList().contains(plateauDeJeu.getPersonnage(i).getJoueur().getNom()))) {
-                        // on perçoit les ressources
-                        percevoirRessources(plateauDeJeu.getPersonnage(i));
-
-                        // puis les ressources spécifiques
-                        plateauDeJeu.getPersonnage(i).percevoirRessourcesSpecifiques();
-
-                        // on utilise le pouvoir ?
-                        System.out.println("Voulez-vous utiliser votre pouvoir ? o | n");
-                        boolean utiliserPouvoirON = Interaction.lireOuiOuNon();
-                        if (utiliserPouvoirON) {
-                            plateauDeJeu.getPersonnage(i).utiliserPouvoir();
-                        }
-
-                        // on construit le quartier
-                        construire(plateauDeJeu.getPersonnage(i));
-                    } else {
-                        //alors c'est un bot
-
-                        // on perçoit nos ressources
-                        percevoirRessourcesAvatar(plateauDeJeu.getPersonnage(i));
-                        // on perçoit les ressources spécifiques
-                        plateauDeJeu.getPersonnage(i).percevoirRessourcesSpecifiques();
-                        // on utilise notre pouvoir
-                        plateauDeJeu.getPersonnage(i).utiliserPouvoirAvatar();
-                        // et on construit si possible
-                        construireAvatar(plateauDeJeu.getPersonnage(i));
-                    }
-
+    private void tourDeJeu () {
+        choixPersonnages();
+        for (int i = 0; i < plateauDeJeu.getNbPersonnages(); i++) {
+            // si le personnage n'est pas assassiné
+            if (!plateauDeJeu.getPersonnage(i).getEstAssassine()) {
+                // si le personnage est volé
+                if (plateauDeJeu.getPersonnage(i).getEstVole()) {
+                    int piecesVole = plateauDeJeu.getPersonnage(i).getJoueur().getTresor();
+                    // on ajoute les pièces au Voleur et on retire les pièces à la personne volée
+                    plateauDeJeu.getPersonnage(1).getJoueur().ajouterPieces(piecesVole);
+                    plateauDeJeu.getPersonnage(i).getJoueur().retirerPieces(piecesVole);
                 }
-                System.out.println("Le joueur est assassiné, il ne fait donc rien");
+
+                // Si le tableau des noms ne contient pas le nom du joueur (donc que c'est pas le bot)
+                if (!(Arrays.stream(Configuration.noms).toList().contains(plateauDeJeu.getPersonnage(i).getJoueur().getNom()))) {
+                    // on perçoit les ressources
+                    percevoirRessources(plateauDeJeu.getPersonnage(i));
+
+                    // puis les ressources spécifiques
+                    plateauDeJeu.getPersonnage(i).percevoirRessourcesSpecifiques();
+
+                    // on utilise le pouvoir ?
+                    System.out.println("Voulez-vous utiliser votre pouvoir ? o | n");
+                    boolean utiliserPouvoirON = Interaction.lireOuiOuNon();
+                    if (utiliserPouvoirON) {
+                        plateauDeJeu.getPersonnage(i).utiliserPouvoir();
+                    }
+
+                    // on construit le quartier
+                    construire(plateauDeJeu.getPersonnage(i));
+                } else {
+                    //alors c'est un bot
+
+                    // on perçoit nos ressources
+                    percevoirRessourcesAvatar(plateauDeJeu.getPersonnage(i));
+                    // on perçoit les ressources spécifiques
+                    plateauDeJeu.getPersonnage(i).percevoirRessourcesSpecifiques();
+                    // on utilise notre pouvoir
+                    plateauDeJeu.getPersonnage(i).utiliserPouvoirAvatar();
+                    // et on construit si possible
+                    construireAvatar(plateauDeJeu.getPersonnage(i));
+                }
+
             }
+            System.out.println("Le joueur est assassiné, il ne fait donc rien");
         }
+    }
 
-        private void percevoirRessources (Personnage p){
-            Scanner scanner = new Scanner(System.in);
-            int choix;
+    private void percevoirRessources (Personnage p){
+        Scanner scanner = new Scanner(System.in);
+        int choix;
 
+        do {
+            System.out.println("Veuillez choisir une option :");
+            System.out.println("1. Prendre 2 pièces");
+            System.out.println("2. Prendre 2 cartes");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Ce n'est pas un nombre valide. Essayez encore:");
+                scanner.next(); // nettoyer le buffer
+            }
+            choix = scanner.nextInt();
+        } while (choix != 1 && choix != 2);
+
+        if (choix == 1) {
+            // Code pour ajouter 2 pièces au trésor du joueur
+            p.getJoueur().ajouterPieces(2);
+        } else if (choix == 2) {
+            // Code pour permettre au joueur de piocher 2 cartes
+            Quartier q1 = plateauDeJeu.getPioche().piocher();
+            Quartier q2 = plateauDeJeu.getPioche().piocher();
+
+            int choixCarteADefausser = Interaction.lireUnEntier(1, 2);
             do {
-                System.out.println("Veuillez choisir une option :");
-                System.out.println("1. Prendre 2 pièces");
-                System.out.println("2. Prendre 2 cartes");
+                System.out.println("Vous avez pioché 2 cartes : " + " 1. " + q1.getNom() + " et " + " 2. " + q2.getNom());
+                System.out.println("Quelle carte voulez-vous défausser ? [1 ou 2 ?]");
+
                 while (!scanner.hasNextInt()) {
                     System.out.println("Ce n'est pas un nombre valide. Essayez encore:");
                     scanner.next(); // nettoyer le buffer
                 }
-                choix = scanner.nextInt();
-            } while (choix != 1 && choix != 2);
 
-            if (choix == 1) {
-                // Code pour ajouter 2 pièces au trésor du joueur
-                p.getJoueur().ajouterPieces(2);
-            } else if (choix == 2) {
-                // Code pour permettre au joueur de piocher 2 cartes
-                Quartier q1 = plateauDeJeu.getPioche().piocher();
-                Quartier q2 = plateauDeJeu.getPioche().piocher();
+                choixCarteADefausser = scanner.nextInt();
+            } while (choixCarteADefausser != 1 && choixCarteADefausser != 2);
 
-                int choixCarteADefausser = Interaction.lireUnEntier(1, 2);
-                do {
-                    System.out.println("Vous avez pioché 2 cartes : " + " 1. " + q1.getNom() + " et " + " 2. " + q2.getNom());
-                    System.out.println("Quelle carte voulez-vous défausser ? [1 ou 2 ?]");
-
-                    while (!scanner.hasNextInt()) {
-                        System.out.println("Ce n'est pas un nombre valide. Essayez encore:");
-                        scanner.next(); // nettoyer le buffer
-                    }
-
-                    choixCarteADefausser = scanner.nextInt();
-                } while (choixCarteADefausser != 1 && choixCarteADefausser != 2);
-
-                if (choixCarteADefausser == 1) {
-                    // Défausser la carte 1
-                    plateauDeJeu.getPioche().ajouter(q1);
-                    p.getJoueur().ajouterQuartierDansMain(q2);
-                } else {
-                    // Défausser la carte 2
-                    plateauDeJeu.getPioche().ajouter(q2);
-                    p.getJoueur().ajouterQuartierDansMain(q1);
-                }
+            if (choixCarteADefausser == 1) {
+                // Défausser la carte 1
+                plateauDeJeu.getPioche().ajouter(q1);
+                p.getJoueur().ajouterQuartierDansMain(q2);
+            } else {
+                // Défausser la carte 2
+                plateauDeJeu.getPioche().ajouter(q2);
+                p.getJoueur().ajouterQuartierDansMain(q1);
             }
         }
+    }
 
-        private void percevoirRessourcesAvatar (Personnage p){
-            Random random = new Random();
-            int choix = random.nextInt(2) + 1; // Génère 1 ou 2
+    private void percevoirRessourcesAvatar (Personnage p){
+        Random random = new Random();
+        int choix = random.nextInt(2) + 1; // Génère 1 ou 2
 
-            if (choix == 1) {
-                // Ajouter 2 pièces au trésor de l'Avatar
-                p.getJoueur().ajouterPieces(2);
-            } else if (choix == 2) {
-                // L'Avatar pioche 2 cartes
-                Quartier q1 = plateauDeJeu.getPioche().piocher();
-                Quartier q2 = plateauDeJeu.getPioche().piocher();
+        if (choix == 1) {
+            // Ajouter 2 pièces au trésor de l'Avatar
+            p.getJoueur().ajouterPieces(2);
+        } else if (choix == 2) {
+            // L'Avatar pioche 2 cartes
+            Quartier q1 = plateauDeJeu.getPioche().piocher();
+            Quartier q2 = plateauDeJeu.getPioche().piocher();
 
-                int choixCarteADefausser = random.nextInt(2) + 1; // Génère 1 ou 2 pour choisir quelle carte défausser
-                if (choixCarteADefausser == 1) {
-                    // Défausser la carte 1 et ajouter la carte 2 à la main de l'Avatar
-                    plateauDeJeu.getPioche().ajouter(q1);
-                    p.getJoueur().ajouterQuartierDansMain(q2);
-                } else {
-                    // Défausser la carte 2 et ajouter la carte 1 à la main de l'Avatar
-                    plateauDeJeu.getPioche().ajouter(q2);
-                    p.getJoueur().ajouterQuartierDansMain(q1);
-                }
+            int choixCarteADefausser = random.nextInt(2) + 1; // Génère 1 ou 2 pour choisir quelle carte défausser
+            if (choixCarteADefausser == 1) {
+                // Défausser la carte 1 et ajouter la carte 2 à la main de l'Avatar
+                plateauDeJeu.getPioche().ajouter(q1);
+                p.getJoueur().ajouterQuartierDansMain(q2);
+            } else {
+                // Défausser la carte 2 et ajouter la carte 1 à la main de l'Avatar
+                plateauDeJeu.getPioche().ajouter(q2);
+                p.getJoueur().ajouterQuartierDansMain(q1);
             }
         }
+    }
 
 
     private void construire(Personnage p) {
         // Corps vide pour l'instant
     }
 
-        private void construireAvatar (Personnage p){
-            Random random = new Random();
-            // Décider aléatoirement si l'Avatar construit un quartier
-            boolean construireQuartierON = random.nextBoolean();
+    private void construireAvatar (Personnage p){
+        Random random = new Random();
+        // Décider aléatoirement si l'Avatar construit un quartier
+        boolean construireQuartierON = random.nextBoolean();
 
-            if (construireQuartierON) {
-                ArrayList<Quartier> quartiersJoueur = p.getJoueur().getMainJoueur();
-                ArrayList<Quartier> quartiersConstruisibles = new ArrayList<>();
+        if (construireQuartierON) {
+            ArrayList<Quartier> quartiersJoueur = p.getJoueur().getMainJoueur();
+            ArrayList<Quartier> quartiersConstruisibles = new ArrayList<>();
 
-                // Filtrer les quartiers que l'Avatar peut se permettre de construire
-                for (Quartier quartier : quartiersJoueur) {
-                    if (quartier.getCoutConstruction() <= p.getJoueur().getTresor()) {
-                        quartiersConstruisibles.add(quartier);
-                    }
-                }
-
-                if (!quartiersConstruisibles.isEmpty()) {
-                    // Choisir un quartier aléatoirement parmi les construisibles
-                    int indexQuartierChoisi = random.nextInt(quartiersConstruisibles.size());
-                    Quartier quartierChoisi = quartiersConstruisibles.get(indexQuartierChoisi);
-
-                    // Construire le quartier choisi
-                    p.construire(quartierChoisi);
+            // Filtrer les quartiers que l'Avatar peut se permettre de construire
+            for (Quartier quartier : quartiersJoueur) {
+                if (quartier.getCoutConstruction() <= p.getJoueur().getTresor()) {
+                    quartiersConstruisibles.add(quartier);
                 }
             }
+
+            if (!quartiersConstruisibles.isEmpty()) {
+                // Choisir un quartier aléatoirement parmi les construisibles
+                int indexQuartierChoisi = random.nextInt(quartiersConstruisibles.size());
+                Quartier quartierChoisi = quartiersConstruisibles.get(indexQuartierChoisi);
+
+                // Construire le quartier choisi
+                p.construire(quartierChoisi);
+            }
         }
+    }
 
 
     private void gestionCouronne() {
@@ -343,27 +343,27 @@ public class Jeu {
     }
 
     private boolean partieFinie() {
-            {
-                // Check du nombre de quartier de chaque joueur
+        {
+            // Check du nombre de quartier de chaque joueur
 
-                for (int i = 0 ; i< plateauDeJeu.getNbJoueurs() ; i++){
-                    Joueur j = plateauDeJeu.getJoueur(i);
-                    if (j.nbQuartiersDansCite() >= 8){
-                        return false;
-                    }
+            for (int i = 0 ; i< plateauDeJeu.getNbJoueurs() ; i++){
+                Joueur j = plateauDeJeu.getJoueur(i);
+                if (j.nbQuartiersDansCite() >= 8){
+                    return false;
                 }
-
-                // Check du nombre de quartier dans la pioche et de la possibilité d'un personnage de finir
-                if(plateauDeJeu.getPioche().nombreQuartiersDansPioche()==0){
-
-                    for(int i=0 ; i <plateauDeJeu.getNbJoueurs() ; i++){
-
-                    }
-
-                }
-
-
-                return true;
             }
+
+            // Check du nombre de quartier dans la pioche et de la possibilité d'un personnage de finir
+            if(plateauDeJeu.getPioche().nombreQuartiersDansPioche()==0){
+
+                for(int i=0 ; i <plateauDeJeu.getNbJoueurs() ; i++){
+
+                }
+
+            }
+
+
+            return true;
+        }
     }
 }
