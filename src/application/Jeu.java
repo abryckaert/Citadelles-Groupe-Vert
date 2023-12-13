@@ -226,6 +226,145 @@ public class Jeu {
                     // et on construit si possible
                     construireAvatar(plateauDeJeu.getPersonnage(i));
                 }
+                //Forge
+                if(plateauDeJeu.getPersonnage(i).getJoueur().getMerveilles().getForge()){
+
+                    System.out.println("Forge: Voulez-vous acheter 3 cartes pour 2 pièces ?");
+                    boolean choix = Interaction.lireOuiOuNon();
+
+                    if(choix){
+                        Joueur joueurActuel = persoActuel.getJoueur();
+                        joueurActuel.retirerPieces(2);
+
+                        int m=0;
+
+                        while(plateauDeJeu.getPioche().nombreElements()>0 && m<3){
+                            // System.out.println("*");
+                            m++;
+                            joueurActuel.ajouterQuartierDansMain(plateauDeJeu.getPioche().piocher());
+                        }
+
+                        System.out.println("Voici votre main actuelle");
+                        for(int k=0 ;k< joueurActuel.nbQuartiersDansMain();k++){
+                            System.out.println("    " + (k+1) + ": " + joueurActuel.getMain().get(k).getNom());
+                        }
+                    }
+                }
+                //Laboratoire
+                if(plateauDeJeu.getPersonnage(i).getJoueur().getMerveilles().getLaboratoire()){
+                    System.out.println("Laboratoire: Voulez-vous échanger 1 carte pour 2 pièces ?");
+                    boolean choix = Interaction.lireOuiOuNon();
+
+                    if(choix){
+                        //Si le joueur veut échanger
+
+                        Joueur joueurActuel = persoActuel.getJoueur();
+                        System.out.println("Voici votre main actuelle");
+                        //Affichage de la main du joueur
+                        for(int k=0 ;k< joueurActuel.nbQuartiersDansMain();k++){
+                            System.out.println("    " + (k+1) + ": " + joueurActuel.getMain().get(k).getNom() + " -- " + joueurActuel.getMain().get(k).getType() + "-- (cout: " + joueurActuel.getMain().get(k).getCout() + ")" );
+                        }
+
+                        System.out.println("Choisissez une carte dont vous vous défausserez: (0 pour annuler)");
+                        int choixQuartier = Interaction.lireUnEntier(0, joueurActuel.nbQuartiersDansMain()+1);
+
+                        if(choixQuartier == 0){
+                            //Annulation du choix de la carte
+                        }else{
+                            //Remplacement de la carte par 2 pièces
+                            choixQuartier--;
+                            plateauDeJeu.getPioche().ajouter(joueurActuel.getMain().get(choixQuartier));
+                            joueurActuel.retirerQuartierDansMain(joueurActuel.getMain().get(choixQuartier));
+                            joueurActuel.ajouterPieces(2);
+                        }
+
+                        //Affichage de la main actuelle
+                        System.out.println("Voici votre main actuelle");
+                        for(int k=0 ;k< joueurActuel.nbQuartiersDansMain();k++){
+                            System.out.println("    " + (k+1) + ": " + joueurActuel.getMain().get(k).getNom());
+                        }
+                    }
+                }
+
+                //Hospice
+                if(persoActuel.getJoueur().getMerveilles().isHospice() && persoActuel.getJoueur().nbPieces() == 0){
+                    persoActuel.getJoueur().ajouterPieces(1);
+                    System.out.println("    Hospice: recevez 1 pièce");
+                }
+
+                //Parc
+                if(persoActuel.getJoueur().getMerveilles().isParc() && persoActuel.getJoueur().nbQuartiersDansMain() == 0){
+                    int m=0;
+                    while(plateauDeJeu.getPioche().nombreElements()>0 && m<2){
+                        m++;
+                        persoActuel.getJoueur().ajouterQuartierDansMain(plateauDeJeu.getPioche().piocher());
+                    }
+                    System.out.println("    Parc: récupérez 2 cartes");
+                }
+
+                //Poudrière
+                if(persoActuel.getJoueur().getMerveilles().isPoudriere() && !flag){
+                    if(!persoActuel.getJoueur().isAvatar()){
+                        System.out.println("Voulez-vous faire exploser la poudrière avec l'un de vos quartiers ?");
+                        boolean choix = Interaction.lireOuiOuNon();
+                        if(choix){
+                            System.out.println("Quel quartier choisissez-vous ?");
+                            int nb=0;
+                            for(int j = 0 ; j < persoActuel.getJoueur().nbQuartiersDansCite() ; j++){
+                                Quartier q = persoActuel.getJoueur().getCite()[j];
+                                if(q != null){
+                                    System.out.println("    " + (j+1) + ": " +q.getNom() + " -- " + q.getCout() + " -- " + q.getType() );
+                                    nb++;
+                                }
+                            }
+                            int choisis = Interaction.lireUnEntier(0, nb+1);
+                            if(choisis == 0){
+                                System.out.println("    Vous ne détruisez pas la poudrière");
+                            }else{
+                                choisis--;
+                                Joueur j =persoActuel.getJoueur();
+                                Quartier q = j.getCite()[choisis];
+                                j.retirerQuartierDansCite(q.getNom());
+                                plateauDeJeu.getPioche().ajouter(q);
+                                j.retirerQuartierDansCite("Poudrière");
+                                System.out.println("    BOOM: vous avez fait exploser la poudrière avec le quartier "+ q.getNom() + " !");
+
+                                if(q.getType().equals("MERVEILLE")){
+                                    DevalidationMerveilles(j, q);
+                                }
+                            }
+                        }
+                    }else{
+                        boolean choix = generateur.nextBoolean();
+                        if(choix){
+                            int nb=0;
+                            for(int j = 0 ; j < persoActuel.getJoueur().nbQuartiersDansCite() ; j++){
+                                if(j<persoActuel.getJoueur().getCite().length){
+                                    Quartier q = persoActuel.getJoueur().getCite()[j];
+                                    if(q != null){
+                                        nb++;
+                                    }
+                                }
+                            }
+                            int choisis = generateur.nextInt(nb+1);
+                            if(choisis == 0){
+
+                            }else{
+                                choisis--;
+                                Joueur j =persoActuel.getJoueur();
+                                Quartier q = j.getCite()[choisis];
+                                j.retirerQuartierDansCite(q.getNom());
+                                plateauDeJeu.getPioche().ajouter(q);
+                                j.retirerQuartierDansCite("Poudrière");
+                                System.out.println("    BOOM: le joueur a fait exploser la poudrière avec le quartier "+ q.getNom() + " !");
+
+                                if(q.getType().equals("MERVEILLE")){
+                                    DevalidationMerveilles(j, q);
+                                }
+                            }
+                        }
+                    }
+                }
 
             }
             System.out.println("Le joueur est assassiné, il ne fait donc rien");
