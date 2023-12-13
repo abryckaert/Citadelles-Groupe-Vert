@@ -9,10 +9,6 @@ public class Roi extends Personnage {
     @Override
     public void percevoirRessourcesSpecifiques() {
         int nbQuartierNoble = 0;
-        // on enlève la couronne à tous les joueurs du plateau
-        for (int i = 0; i < getPlateau().getNbPersonnages(); i++) {
-            getPlateau().getJoueur(i).setPossedeCouronne(false);
-        }
         // on perçoit les pièces
         if (getJoueur() != null) {
             // on itère sur tous les quartiers

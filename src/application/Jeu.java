@@ -127,7 +127,7 @@ public class Jeu {
         // sinon on relance la méthode
         else
         {
-            choixPersonnages();
+            return;
         }
 
 
@@ -370,7 +370,7 @@ public class Jeu {
 
             // Filtrer les quartiers que l'Avatar peut se permettre de construire
             for (Quartier quartier : quartiersJoueur) {
-                if (quartier.getCoutConstruction() <= p.getJoueur().getTresor()) {
+                if (quartier != null && quartier.getCoutConstruction() <= p.getJoueur().getTresor()) {
                     quartiersConstruisibles.add(quartier);
                 }
             }
