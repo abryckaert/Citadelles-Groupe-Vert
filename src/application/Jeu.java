@@ -169,7 +169,7 @@ public class Jeu {
                             // on vérifie que la carte n'a pas été mise au tapis ni distribuée
                             if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur() == null)
                             {
-                                System.out.println(j + ". " + plateauDeJeu.getPersonnage(j));
+                                System.out.println(j + ". " + plateauDeJeu.getPersonnage(j).getNom());
                             }
                         }
                         System.out.println("Quel personnage voulez-vous choisir ?");
