@@ -13,6 +13,8 @@ public class Joueur {
     private Personnage monPersonnage;
     private boolean avatar;
 
+    private boolean isBot;
+
     public Joueur(String nom)
     {
         this.nom = nom;
@@ -21,6 +23,18 @@ public class Joueur {
         this.cite = new ArrayList<Quartier>();
         this.mainJoueur = new ArrayList<Quartier>();
         this.monPersonnage = null;
+        this.isBot = true;
+    }
+
+    public Joueur(String nom, boolean isBot)
+    {
+        this.nom = nom;
+        tresor = 0;
+        possedeCouronne = false;
+        this.cite = new ArrayList<Quartier>();
+        this.mainJoueur = new ArrayList<Quartier>();
+        this.monPersonnage = null;
+        this.isBot = isBot;
     }
 
     public String getNom() {
@@ -48,6 +62,10 @@ public class Joueur {
 
     public void setPossedeCouronne(boolean possedeCouronne) {
         this.possedeCouronne = possedeCouronne;
+    }
+
+    public boolean isBot() {
+        return isBot;
     }
 
     public void ajouterPieces(int pieces)

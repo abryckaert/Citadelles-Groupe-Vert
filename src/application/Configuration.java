@@ -121,7 +121,8 @@ public class Configuration {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Quel est votre nom ?");
         String nom = scanner.nextLine();
-        Joueur J1 = new Joueur(nom);
+        boolean isBot = false;
+        Joueur J1 = new Joueur(nom, isBot);
         J1.setAvatar();
 
         Pl.ajouterJoueur(J1);
@@ -133,6 +134,7 @@ public class Configuration {
             Pl.ajouterJoueur(j);
         }
 
+        // ajout des personnages
         Pl.ajouterPersonnage(Assassin);
         Pl.ajouterPersonnage(Architecte);
         Pl.ajouterPersonnage(Condottiere);
@@ -142,6 +144,7 @@ public class Configuration {
         Pl.ajouterPersonnage(Roi);
         Pl.ajouterPersonnage(Voleur);
 
+        // ajout des merveilles
         p.ajouter(new Quartier("Bibliothèque", "MERVEILLE", 6));
         p.ajouter(new Quartier("Carrière", "MERVEILLE", 5));
         p.ajouter(new Quartier("Cours des Miracles", "MERVEILLE", 2));
