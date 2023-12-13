@@ -112,7 +112,7 @@ public abstract class Personnage {
     public void reintitialiser()
     {
         if(this.joueur !=null){
-            this.joueur.getAllPersonnage().reintitialiser();
+            this.setJoueur(null);
         }
         joueur = null;
         estAssassine = false;
