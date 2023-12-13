@@ -14,7 +14,6 @@ public class Joueur {
     private boolean avatar;
     private Merveilles merveillePossede;
 
-
     public Joueur(String nom)
     {
         this.nom = nom;
@@ -24,7 +23,17 @@ public class Joueur {
         this.mainJoueur = new ArrayList<Quartier>();
         this.monPersonnage = null;
         this.merveillePossede = new Merveilles();
+    }
 
+    public Joueur(String nom, boolean avatar)
+    {
+        this.nom = nom;
+        tresor = 0;
+        possedeCouronne = false;
+        this.cite = new ArrayList<Quartier>();
+        this.mainJoueur = new ArrayList<Quartier>();
+        this.monPersonnage = null;
+        this.avatar = avatar;
     }
 
     public Merveilles getMerveilles(){
@@ -173,7 +182,5 @@ public class Joueur {
     public boolean isAvatar(){
         return avatar;
     }
-    public Personnage getAllPersonnage(){
-        return this.monPersonnage;
-    }
+
 }

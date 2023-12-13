@@ -49,21 +49,25 @@ public class Assassin extends modele.Personnage{
         System.out.println("Vous avez choisi d'assasiner le personnage " + plateau.getPersonnage(choixUtilisateur -1 ).getNom());
         plateau.getPersonnage(choixUtilisateur - 1).setEstAssassine();
     }
-    public void utiliserPouvoirAvatar(){
+    public void utiliserPouvoirAvatar() {
         PlateauDeJeu plateau = super.getPlateau();
         Random random = new Random();
 
         if (plateau != null) {
             int maxPersonnage = plateau.getNbPersonnages();
-            int choixAuto;
-            while (true) {
-                choixAuto = random.nextInt(maxPersonnage) + 1;
-                if (plateau.getPersonnage(choixAuto - 1) != this) {
-                    break;
-                }
+            int choixAuto = random.nextInt(maxPersonnage); // L'index commence à 0, donc pas besoin de +1
+
+            // Empêcher l'assassin de s'assassiner lui-même
+            while (plateau.getPersonnage(choixAuto) == this) {
+                choixAuto = random.nextInt(maxPersonnage);
             }
-            System.out.println("L'avatar a choisi de tuer le personnage " + plateau.getPersonnage(choixAuto - 1).getNom());
-            plateau.getPersonnage(choixAuto - 1).setEstAssassine();
+
+            // Marquer le personnage choisi comme assassiné
+            Personnage cible = plateau.getPersonnage(choixAuto);
+            if (!cible.getEstAssassine()) { // S'assurer que le personnage n'est pas déjà assassiné
+                System.out.println("L'avatar a choisi d'assassiner le personnage " + cible.getNom());
+                cible.setEstAssassine();
+            }
         } else {
             System.out.println("Le plateau n'est pas défini pour le personnage.");
         }

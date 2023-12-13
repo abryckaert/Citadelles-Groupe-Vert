@@ -1,5 +1,8 @@
 package modele;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
+
 public abstract class Personnage {
     private String nom;
     private int rang;
@@ -109,16 +112,23 @@ public abstract class Personnage {
         }
     }
 
-    public void reintitialiser()
+    public void reinitialiser()
     {
-        if(this.joueur !=null){
-            this.setJoueur(null);
-        }
-        joueur = null;
-        estAssassine = false;
-        estVole = false;
+       System.out.println("Le personnage " + this.getNom() + " est reinitialiser !");
+        this.estAssassine = false;
+        this.estVole = false;
     }
 
     public abstract void utiliserPouvoirAvatar();
+    public ArrayList<Personnage> getAllPersonnage() {
+        ArrayList<Personnage> tousLesPersonnnages = new ArrayList<Personnage>();
+        
+        for (int i = 0; i < plateau.getNbPersonnages(); i++) {
+            tousLesPersonnnages.add(plateau.getPersonnage(i));
+        }
+        return tousLesPersonnnages;
+    }
 
 }
+
+

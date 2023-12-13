@@ -94,9 +94,6 @@ public class Jeu {
     }
 
     private void initialisation() {
-        Configuration config = new Configuration();
-        Pioche pioche = Configuration.nouvellePioche();
-        PlateauDeJeu plateauDeJeu = config.configurationDeBase(pioche, 4, 4);
 
         for (int i = 0; i<plateauDeJeu.getNbJoueurs(); i++){
             plateauDeJeu.getJoueur(i).ajouterPieces(2);
@@ -117,10 +114,9 @@ public class Jeu {
         int carteFaceVisible1 = random1.nextInt(8);
         int carteFaceVisible2 = random2.nextInt(8);
         int carteFaceCachee = random3.nextInt(8);
-        int nombreAllouerCartes = plateauDeJeu.getNbJoueurs();
 
         // Si les 3 nombres sont différents et que le roi n'est pas retourné face visible, alors on affiche le texte
-        if (carteFaceCachee != carteFaceVisible2 && carteFaceCachee != carteFaceVisible1 && carteFaceVisible1 != 4 && carteFaceVisible2 != 4) {
+        if (carteFaceVisible2 != carteFaceVisible1 && carteFaceCachee != carteFaceVisible2 && carteFaceCachee != carteFaceVisible1 && carteFaceVisible1 != 6 && carteFaceVisible2 != 6) {
             System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible1).getNom() + " \" a été retourné face visible !");
             System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible2).getNom() + " \" a été retourné face visible !");
             System.out.println("Un personnage a été écarté face cachée ! ");
@@ -128,8 +124,9 @@ public class Jeu {
         // sinon on relance la méthode
         else
         {
-            choixPersonnages();
+            return;
         }
+
 
         // affiche qui possède la couronne
         for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
@@ -139,235 +136,136 @@ public class Jeu {
             }
         }
 
-        while(nombreAllouerCartes > 0)
-        {
-            if (nombreAllouerCartes == plateauDeJeu.getNbJoueurs())
+        // Le joueur qui a la couronne joue en premier
+        for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+            if (plateauDeJeu.getJoueur(i).isPossedeCouronne())
             {
-                for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
-                    if (plateauDeJeu.getJoueur(i).isPossedeCouronne())
-                    {
-                        // on lui montre les cartes disponibles
-                        for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
-                            if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2)
-                            {
-                                System.out.println(j + ". " + plateauDeJeu.getPersonnage(j).getNom());
-                            }
+                Joueur joueurActuel = plateauDeJeu.getJoueur(i);
+
+                // si c'est un joueur
+                if (!joueurActuel.isAvatar())
+                {
+                    // on lui montre les cartes disponibles
+                    for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
+                        if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur()==null)
+                        {
+                            System.out.println(j + ". " + plateauDeJeu.getPersonnage(j).getNom());
                         }
-                        System.out.println("Quel personnage voulez-vous choisir ?");
-                        int personnageAssigne = Interaction.lireUnEntier();
-                        plateauDeJeu.getPersonnage(personnageAssigne).setJoueur(plateauDeJeu.getJoueur(i));
                     }
+                    System.out.println("Quel personnage voulez-vous choisir ?");
+                    int personnageAssigne = Interaction.lireUnEntier();
+                    plateauDeJeu.getPersonnage(personnageAssigne).setJoueur(plateauDeJeu.getJoueur(i));
+                }
+                // si c'est un avatar
+                else {
+                    Random random4 = new Random();
+                    // on met dans un tableau les cartes disponibles
+                    ArrayList<Personnage> personnagesDisponibles = new ArrayList<>();
+                    for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
+                        if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur()==null)
+                        {
+                            personnagesDisponibles.add(plateauDeJeu.getPersonnage(j));
+                        }
+                    }
+                    // on choisit un indice random à assigner à l'avatar
+                    int personnageAssigne = random4.nextInt(personnagesDisponibles.size()-1);
+                    // on assigne le personnage à l'avatar
+                    plateauDeJeu.getPersonnage(personnageAssigne).setJoueur(plateauDeJeu.getJoueur(i));
                 }
             }
-            else {
-                for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
-                    if (!plateauDeJeu.getJoueur(i).isPossedeCouronne())
-                    {
-                        // on montre les cartes dispo au joueur
-                        for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++)
+        }
+
+        // ensuite, les autres joueurs choisissent leurs cartes
+        for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+            // si le joueur possède pas la couronne (pour ne pas que le roi ne joue 2x)
+            if (!plateauDeJeu.getJoueur(i).isPossedeCouronne())
+            {
+                Joueur joueurActuel = plateauDeJeu.getJoueur(i);
+
+
+                // si c'est un joueur
+                if (!joueurActuel.isAvatar())
+                {
+                    // on lui montre les cartes disponibles
+                    for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
+                        if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur()==null)
                         {
-                            // on vérifie que la carte n'a pas été mise au tapis ni distribuée
-                            if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur() == null)
-                            {
-                                System.out.println(j + ". " + plateauDeJeu.getPersonnage(j).getNom());
-                            }
+                            System.out.println(j + ". " + plateauDeJeu.getPersonnage(j).getNom());
                         }
-                        System.out.println("Quel personnage voulez-vous choisir ?");
-                        int personnageAssigne = Interaction.lireUnEntier();
-                        plateauDeJeu.getPersonnage(personnageAssigne).setJoueur(plateauDeJeu.getJoueur(i));
                     }
+                    System.out.println("Quel personnage voulez-vous choisir ?");
+                    int personnageAssigne = Interaction.lireUnEntier();
+                    plateauDeJeu.getPersonnage(personnageAssigne).setJoueur(plateauDeJeu.getJoueur(i));
+                }
+                // si c'est un avatar
+                else {
+                    Random random4 = new Random();
+                    // on met dans un tableau les cartes disponibles
+                    ArrayList<Personnage> personnagesDisponibles = new ArrayList<>();
+                    for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
+                        if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur()==null)
+                        {
+                            personnagesDisponibles.add(plateauDeJeu.getPersonnage(j));
+                        }
+                    }
+                    // on choisit un indice random à assigner à l'avatar
+                    int personnageAssigne = random4.nextInt(personnagesDisponibles.size()-1);
+                    // on assigne le personnage à l'avatar
+                    plateauDeJeu.getPersonnage(personnageAssigne).setJoueur(plateauDeJeu.getJoueur(i));
                 }
 
             }
-            // une carte de moins à allouer !
-            nombreAllouerCartes--;
         }
+
     }
 
     private void tourDeJeu () {
-        choixPersonnages();
         for (int i = 0; i < plateauDeJeu.getNbPersonnages(); i++) {
-            // si le personnage n'est pas assassiné
-            if (!plateauDeJeu.getPersonnage(i).getEstAssassine()) {
-                // si le personnage est volé
-                if (plateauDeJeu.getPersonnage(i).getEstVole()) {
-                    int piecesVole = plateauDeJeu.getPersonnage(i).getJoueur().getTresor();
-                    // on ajoute les pièces au Voleur et on retire les pièces à la personne volée
-                    plateauDeJeu.getPersonnage(1).getJoueur().ajouterPieces(piecesVole);
-                    plateauDeJeu.getPersonnage(i).getJoueur().retirerPieces(piecesVole);
-                }
-
-                // Si le tableau des noms ne contient pas le nom du joueur (donc que c'est pas le bot)
-                if (!(Arrays.stream(Configuration.noms).toList().contains(plateauDeJeu.getPersonnage(i).getJoueur().getNom()))) {
-                    // on perçoit les ressources
-                    percevoirRessources(plateauDeJeu.getPersonnage(i));
-
-                    // puis les ressources spécifiques
-                    plateauDeJeu.getPersonnage(i).percevoirRessourcesSpecifiques();
-
-                    // on utilise le pouvoir ?
-                    System.out.println("Voulez-vous utiliser votre pouvoir ? o | n");
-                    boolean utiliserPouvoirON = Interaction.lireOuiOuNon();
-                    if (utiliserPouvoirON) {
-                        plateauDeJeu.getPersonnage(i).utiliserPouvoir();
+            if (plateauDeJeu.getPersonnage(i).getJoueur() != null)
+            {
+                // si le personnage n'est pas assassiné
+                if (!plateauDeJeu.getPersonnage(i).getEstAssassine()) {
+                    // si le personnage est volé
+                    if (plateauDeJeu.getPersonnage(i).getEstVole()) {
+                        int piecesVole = plateauDeJeu.getPersonnage(i).getJoueur().getTresor();
+                        // on ajoute les pièces au Voleur et on retire les pièces à la personne volée
+                        plateauDeJeu.getPersonnage(1).getJoueur().ajouterPieces(piecesVole);
+                        plateauDeJeu.getPersonnage(i).getJoueur().retirerPieces(piecesVole);
                     }
 
-                    // on construit le quartier
-                    construire(plateauDeJeu.getPersonnage(i));
-                } else {
-                    //alors c'est un bot
+                    // Si le joueur n'est pas un bot
+                    if (!plateauDeJeu.getPersonnage(i).getJoueur().isAvatar()) {
+                        // on perçoit les ressources
+                        percevoirRessources(plateauDeJeu.getPersonnage(i));
 
-                    // on perçoit nos ressources
-                    percevoirRessourcesAvatar(plateauDeJeu.getPersonnage(i));
-                    // on perçoit les ressources spécifiques
-                    plateauDeJeu.getPersonnage(i).percevoirRessourcesSpecifiques();
-                    // on utilise notre pouvoir
-                    plateauDeJeu.getPersonnage(i).utiliserPouvoirAvatar();
-                    // et on construit si possible
-                    construireAvatar(plateauDeJeu.getPersonnage(i));
-                }
-                //Forge
-                if(plateauDeJeu.getPersonnage(i).getJoueur().getMerveilles().getForge()){
+                        // puis les ressources spécifiques
+                        plateauDeJeu.getPersonnage(i).percevoirRessourcesSpecifiques();
 
-                    System.out.println("Forge: Voulez-vous acheter 3 cartes pour 2 pièces ?");
-                    boolean choix = Interaction.lireOuiOuNon();
-
-                    if(choix){
-                        Joueur joueurActuel = persoActuel.getJoueur();
-                        joueurActuel.retirerPieces(2);
-
-                        int m=0;
-
-                        while(plateauDeJeu.getPioche().nombreElements()>0 && m<3){
-                            // System.out.println("*");
-                            m++;
-                            joueurActuel.ajouterQuartierDansMain(plateauDeJeu.getPioche().piocher());
+                        // on utilise le pouvoir ?
+                        System.out.println("Voulez-vous utiliser votre pouvoir ? o | n");
+                        boolean utiliserPouvoirON = Interaction.lireOuiOuNon();
+                        if (utiliserPouvoirON) {
+                            plateauDeJeu.getPersonnage(i).utiliserPouvoir();
                         }
 
-                        System.out.println("Voici votre main actuelle");
-                        for(int k=0 ;k< joueurActuel.nbQuartiersDansMain();k++){
-                            System.out.println("    " + (k+1) + ": " + joueurActuel.getMain().get(k).getNom());
-                        }
+                        // on construit le quartier
+                        construire(plateauDeJeu.getPersonnage(i));
+                    } else {
+                        //alors c'est un bot
+
+                        // on perçoit nos ressources
+                        percevoirRessourcesAvatar(plateauDeJeu.getPersonnage(i));
+                        // on perçoit les ressources spécifiques
+                        plateauDeJeu.getPersonnage(i).percevoirRessourcesSpecifiques();
+                        // on utilise notre pouvoir
+                        plateauDeJeu.getPersonnage(i).utiliserPouvoirAvatar();
+                        // et on construit si possible
+                        construireAvatar(plateauDeJeu.getPersonnage(i));
                     }
+
                 }
-                //Laboratoire
-                if(plateauDeJeu.getPersonnage(i).getJoueur().getMerveilles().getLaboratoire()){
-                    System.out.println("Laboratoire: Voulez-vous échanger 1 carte pour 2 pièces ?");
-                    boolean choix = Interaction.lireOuiOuNon();
-
-                    if(choix){
-                        //Si le joueur veut échanger
-
-                        Joueur joueurActuel = persoActuel.getJoueur();
-                        System.out.println("Voici votre main actuelle");
-                        //Affichage de la main du joueur
-                        for(int k=0 ;k< joueurActuel.nbQuartiersDansMain();k++){
-                            System.out.println("    " + (k+1) + ": " + joueurActuel.getMain().get(k).getNom() + " -- " + joueurActuel.getMain().get(k).getType() + "-- (cout: " + joueurActuel.getMain().get(k).getCout() + ")" );
-                        }
-
-                        System.out.println("Choisissez une carte dont vous vous défausserez: (0 pour annuler)");
-                        int choixQuartier = Interaction.lireUnEntier(0, joueurActuel.nbQuartiersDansMain()+1);
-
-                        if(choixQuartier == 0){
-                            //Annulation du choix de la carte
-                        }else{
-                            //Remplacement de la carte par 2 pièces
-                            choixQuartier--;
-                            plateauDeJeu.getPioche().ajouter(joueurActuel.getMain().get(choixQuartier));
-                            joueurActuel.retirerQuartierDansMain(joueurActuel.getMain().get(choixQuartier));
-                            joueurActuel.ajouterPieces(2);
-                        }
-
-                        //Affichage de la main actuelle
-                        System.out.println("Voici votre main actuelle");
-                        for(int k=0 ;k< joueurActuel.nbQuartiersDansMain();k++){
-                            System.out.println("    " + (k+1) + ": " + joueurActuel.getMain().get(k).getNom());
-                        }
-                    }
-                }
-
-                //Hospice
-                if(persoActuel.getJoueur().getMerveilles().isHospice() && persoActuel.getJoueur().nbPieces() == 0){
-                    persoActuel.getJoueur().ajouterPieces(1);
-                    System.out.println("    Hospice: recevez 1 pièce");
-                }
-
-                //Parc
-                if(persoActuel.getJoueur().getMerveilles().isParc() && persoActuel.getJoueur().nbQuartiersDansMain() == 0){
-                    int m=0;
-                    while(plateauDeJeu.getPioche().nombreElements()>0 && m<2){
-                        m++;
-                        persoActuel.getJoueur().ajouterQuartierDansMain(plateauDeJeu.getPioche().piocher());
-                    }
-                    System.out.println("    Parc: récupérez 2 cartes");
-                }
-
-                //Poudrière
-                if(persoActuel.getJoueur().getMerveilles().isPoudriere() && !flag){
-                    if(!persoActuel.getJoueur().isAvatar()){
-                        System.out.println("Voulez-vous faire exploser la poudrière avec l'un de vos quartiers ?");
-                        boolean choix = Interaction.lireOuiOuNon();
-                        if(choix){
-                            System.out.println("Quel quartier choisissez-vous ?");
-                            int nb=0;
-                            for(int j = 0 ; j < persoActuel.getJoueur().nbQuartiersDansCite() ; j++){
-                                Quartier q = persoActuel.getJoueur().getCite()[j];
-                                if(q != null){
-                                    System.out.println("    " + (j+1) + ": " +q.getNom() + " -- " + q.getCout() + " -- " + q.getType() );
-                                    nb++;
-                                }
-                            }
-                            int choisis = Interaction.lireUnEntier(0, nb+1);
-                            if(choisis == 0){
-                                System.out.println("    Vous ne détruisez pas la poudrière");
-                            }else{
-                                choisis--;
-                                Joueur j =persoActuel.getJoueur();
-                                Quartier q = j.getCite()[choisis];
-                                j.retirerQuartierDansCite(q.getNom());
-                                plateauDeJeu.getPioche().ajouter(q);
-                                j.retirerQuartierDansCite("Poudrière");
-                                System.out.println("    BOOM: vous avez fait exploser la poudrière avec le quartier "+ q.getNom() + " !");
-
-                                if(q.getType().equals("MERVEILLE")){
-                                    DevalidationMerveilles(j, q);
-                                }
-                            }
-                        }
-                    }else{
-                        boolean choix = generateur.nextBoolean();
-                        if(choix){
-                            int nb=0;
-                            for(int j = 0 ; j < persoActuel.getJoueur().nbQuartiersDansCite() ; j++){
-                                if(j<persoActuel.getJoueur().getCite().length){
-                                    Quartier q = persoActuel.getJoueur().getCite()[j];
-                                    if(q != null){
-                                        nb++;
-                                    }
-                                }
-                            }
-                            int choisis = generateur.nextInt(nb+1);
-                            if(choisis == 0){
-
-                            }else{
-                                choisis--;
-                                Joueur j =persoActuel.getJoueur();
-                                Quartier q = j.getCite()[choisis];
-                                j.retirerQuartierDansCite(q.getNom());
-                                plateauDeJeu.getPioche().ajouter(q);
-                                j.retirerQuartierDansCite("Poudrière");
-                                System.out.println("    BOOM: le joueur a fait exploser la poudrière avec le quartier "+ q.getNom() + " !");
-
-                                if(q.getType().equals("MERVEILLE")){
-                                    DevalidationMerveilles(j, q);
-                                }
-                            }
-                        }
-                    }
-                }
-
+                System.out.println("Le personnage" + plateauDeJeu.getPersonnage(i).getNom() + " du joueur " +  plateauDeJeu.getPersonnage(i).getJoueur().getNom() +  " est assassiné, il ne fait donc rien");
             }
-            System.out.println("Le joueur est assassiné, il ne fait donc rien");
         }
     }
 
@@ -460,7 +358,7 @@ public class Jeu {
 
             // Filtrer les quartiers que l'Avatar peut se permettre de construire
             for (Quartier quartier : quartiersJoueur) {
-                if (quartier.getCoutConstruction() <= p.getJoueur().getTresor()) {
+                if (quartier != null && quartier.getCoutConstruction() <= p.getJoueur().getTresor()) {
                     quartiersConstruisibles.add(quartier);
                 }
             }

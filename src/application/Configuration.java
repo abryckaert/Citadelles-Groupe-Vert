@@ -111,7 +111,7 @@ public class Configuration {
             P1.ajouter(new Quartier("Hotel de ville", "COMMERCANT", 5));
         }
 
-        return new Pioche();
+        return P1;
     }
 
     public PlateauDeJeu configurationDeBase(Pioche p, int nombreDeJoueur, int nombrePersonnage){
@@ -123,8 +123,6 @@ public class Configuration {
         String nom = scanner.nextLine();
         boolean isBot = false;
         Joueur J1 = new Joueur(nom, isBot);
-        J1.setAvatar();
-
         Pl.ajouterJoueur(J1);
 
         //Boucle d'ajout des joueurs
