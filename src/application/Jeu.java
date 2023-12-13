@@ -88,9 +88,9 @@ public class Jeu {
     }
 
     private void reinitialisationPersonnages() {
-        for(int i=0 ; i< plateauDeJeu.getNbPersonnages() ; i++){
-            plateauDeJeu.getPersonnage(i).reintitialiser();
-        }
+       for (int i = 0; i<plateauDeJeu.getNbPersonnages(); i++){
+           plateauDeJeu.getPersonnage(i).setJoueur(null);
+       }
     }
 
     private void initialisation() {
@@ -292,7 +292,7 @@ public class Jeu {
             Quartier q1 = plateauDeJeu.getPioche().piocher();
             Quartier q2 = plateauDeJeu.getPioche().piocher();
 
-            int choixCarteADefausser = Interaction.lireUnEntier(1, 2);
+            int choixCarteADefausser = Interaction.lireUnEntier(1, 3);
             do {
                 System.out.println("Vous avez pioché 2 cartes : " + " 1. " + q1.getNom() + " et " + " 2. " + q2.getNom());
                 System.out.println("Quelle carte voulez-vous défausser ? [1 ou 2 ?]");
@@ -319,7 +319,7 @@ public class Jeu {
 
     private void percevoirRessourcesAvatar (Personnage p){
         Random random = new Random();
-        int choix = random.nextInt(2) + 1; // Génère 1 ou 2
+        int choix = random.nextInt(2); // Génère 1 ou 2
 
         if (choix == 1) {
             // Ajouter 2 pièces au trésor de l'Avatar
@@ -344,7 +344,29 @@ public class Jeu {
 
 
     private void construire(Personnage p) {
-        // Corps vide pour l'instant
+
+        // Demander si on construit un quartier
+        System.out.println("Voulez-vous construire un quartier ?");
+        boolean construireQuartierON = Interaction.lireOuiOuNon();
+
+        if (construireQuartierON) {
+            ArrayList<Quartier> quartiersJoueur = p.getJoueur().getMainJoueur();
+
+            // Montrer les quartiers que l'on a dans notre main
+            System.out.println("Votre main :");
+            for (Quartier quartier : quartiersJoueur) {
+                System.out.println(quartier.getNom() + " - " + quartier.getCoutConstruction() + " pièces");
+            }
+
+            //if (!quartiersConstruisibles.isEmpty()) {
+                // Choisir un quartier aléatoirement parmi les construisibles
+                //int indexQuartierChoisi = random.nextInt(quartiersConstruisibles.size());
+                //Quartier quartierChoisi = quartiersConstruisibles.get(indexQuartierChoisi);
+
+                // Construire le quartier choisi
+                //p.construire(quartierChoisi);
+            //}
+        }
     }
 
     private void construireAvatar (Personnage p){
@@ -390,14 +412,14 @@ public class Jeu {
                 }
             }
 
-            // Check du nombre de quartier dans la pioche et de la possibilité d'un personnage de finir
+            /*// Check du nombre de quartier dans la pioche et de la possibilité d'un personnage de finir
             if(plateauDeJeu.getPioche().nombreQuartiersDansPioche()==0){
 
                 for(int i=0 ; i <plateauDeJeu.getNbJoueurs() ; i++){
 
                 }
 
-            }
+            }*/
 
 
             return true;

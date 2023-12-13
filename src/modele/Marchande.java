@@ -20,7 +20,7 @@ public class Marchande extends Personnage {
                 getJoueur().ajouterPieces(1);
             }
         }
-        System.out.println("Vos batiments religieux vous rapportent " + nombreQuartierCommercant);
+        System.out.println("Vos batiments commercant vous rapportent " + nombreQuartierCommercant);
     }
     public void utiliserPouvoirAvatar(){
         if(!getEstAssassine()){

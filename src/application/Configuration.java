@@ -116,7 +116,27 @@ public class Configuration {
 
     public PlateauDeJeu configurationDeBase(Pioche p, int nombreDeJoueur, int nombrePersonnage){
 
-        PlateauDeJeu Pl = new PlateauDeJeu();
+        // ajout des merveilles dans la pioche
+        p.ajouter(new Quartier("Bibliothèque", "MERVEILLE", 6));
+        p.ajouter(new Quartier("Carrière", "MERVEILLE", 5));
+        p.ajouter(new Quartier("Cours des Miracles", "MERVEILLE", 2));
+        p.ajouter(new Quartier("Donjon", "MERVEILLE", 3));
+        p.ajouter(new Quartier("Dracoport", "MERVEILLE", 6));
+        p.ajouter(new Quartier("Ecole de Magie", "MERVEILLE", 6));
+        p.ajouter(new Quartier("Fontaine aux Souhaits", "MERVEILLE", 5));
+        p.ajouter(new Quartier("Forge", "MERVEILLE", 5));
+        p.ajouter(new Quartier("Laboratoire", "MERVEILLE", 5));
+        p.ajouter(new Quartier("Manufacture", "MERVEILLE", 5));
+        p.ajouter(new Quartier("Salle des Cartes", "MERVEILLE", 5));
+        p.ajouter(new Quartier("Statue Equestre", "MERVEILLE", 3));
+        p.ajouter(new Quartier("Trésor Imperial", "MERVEILLE", 5));
+        p.ajouter(new Quartier("Tripot", "MERVEILLE", 6));
+
+        // mélanger la pioche
+        p.melanger();
+
+        // on crée le plateau
+        PlateauDeJeu Pl = new PlateauDeJeu(p);
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Quel est votre nom ?");
@@ -142,25 +162,6 @@ public class Configuration {
         Pl.ajouterPersonnage(Roi);
         Pl.ajouterPersonnage(Voleur);
 
-        // ajout des merveilles
-        p.ajouter(new Quartier("Bibliothèque", "MERVEILLE", 6));
-        p.ajouter(new Quartier("Carrière", "MERVEILLE", 5));
-        p.ajouter(new Quartier("Cours des Miracles", "MERVEILLE", 2));
-        p.ajouter(new Quartier("Donjon", "MERVEILLE", 3));
-        p.ajouter(new Quartier("Dracoport", "MERVEILLE", 6));
-        p.ajouter(new Quartier("Ecole de Magie", "MERVEILLE", 6));
-        p.ajouter(new Quartier("Fontaine aux Souhaits", "MERVEILLE", 5));
-        p.ajouter(new Quartier("Forge", "MERVEILLE", 5));
-        p.ajouter(new Quartier("Laboratoire", "MERVEILLE", 5));
-        p.ajouter(new Quartier("Manufacture", "MERVEILLE", 5));
-        p.ajouter(new Quartier("Salle des Cartes", "MERVEILLE", 5));
-        p.ajouter(new Quartier("Statue Equestre", "MERVEILLE", 3));
-        p.ajouter(new Quartier("Trésor Imperial", "MERVEILLE", 5));
-        p.ajouter(new Quartier("Tripot", "MERVEILLE", 6));
-
-        for(int i=0 ; i< 100 ;i++){
-            p.melanger();
-        }
         return Pl;
     }
 }
