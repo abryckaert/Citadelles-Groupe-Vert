@@ -422,27 +422,47 @@ public class Jeu {
             Quartier q2 = plateauDeJeu.getPioche().piocher();
 
             int choixCarteADefausser = Interaction.lireUnEntier(1, 2);
-            do {
-                System.out.println("Vous avez pioché 2 cartes : " + " 1. " + q1.getNom() + " et " + " 2. " + q2.getNom());
-                System.out.println("Quelle carte voulez-vous défausser ? [1 ou 2 ?]");
+            // Regarder si le joueur possède la Merveille Bibliothèque
+            boolean possedeBibliotheque = false;
 
-                while (!scanner.hasNextInt()) {
-                    System.out.println("Ce n'est pas un nombre valide. Essayez encore:");
-                    scanner.next(); // nettoyer le buffer
+            for (int i = 0; i < p.getJoueur().getCite().size(); i++) {
+                if (p.getJoueur().getCite().get(i).getNom().equalsIgnoreCase("bibliothèque")) {
+                    possedeBibliotheque = true;
+                    break;
                 }
-
-                choixCarteADefausser = scanner.nextInt();
-            } while (choixCarteADefausser != 1 && choixCarteADefausser != 2);
-
-            if (choixCarteADefausser == 1) {
-                // Défausser la carte 1
-                plateauDeJeu.getPioche().ajouter(q1);
-                p.getJoueur().ajouterQuartierDansMain(q2);
-            } else {
-                // Défausser la carte 2
-                plateauDeJeu.getPioche().ajouter(q2);
-                p.getJoueur().ajouterQuartierDansMain(q1);
             }
+
+            if (!possedeBibliotheque)
+            {
+                do {
+                    System.out.println("Vous avez pioché 2 cartes : " + " 1. " + q1.getNom() + " et " + " 2. " + q2.getNom());
+                    System.out.println("Quelle carte voulez-vous défausser ? [1 ou 2 ?]");
+
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Ce n'est pas un nombre valide. Essayez encore:");
+                        scanner.next(); // nettoyer le buffer
+                    }
+
+                    choixCarteADefausser = scanner.nextInt();
+                } while (choixCarteADefausser != 1 && choixCarteADefausser != 2);
+
+                if (choixCarteADefausser == 1) {
+                    // Défausser la carte 1
+                    plateauDeJeu.getPioche().ajouter(q1);
+                    p.getJoueur().ajouterQuartierDansMain(q2);
+                } else {
+                    // Défausser la carte 2
+                    plateauDeJeu.getPioche().ajouter(q2);
+                    p.getJoueur().ajouterQuartierDansMain(q1);
+                }
+            }
+            else {
+                System.out.println("Vous avez pioché 2 cartes : " + " 1. " + q1.getNom() + " et " + " 2. " + q2.getNom());
+                System.out.println("Vous possédez la Bibliothèque, les deux cartes sont donc ajoutées à votre inventaire");
+                p.getJoueur().ajouterQuartierDansMain(q1);
+                p.getJoueur().ajouterQuartierDansMain(q2);
+            }
+
         }
     }
 
@@ -458,16 +478,33 @@ public class Jeu {
             Quartier q1 = plateauDeJeu.getPioche().piocher();
             Quartier q2 = plateauDeJeu.getPioche().piocher();
 
-            int choixCarteADefausser = random.nextInt(2) + 1; // Génère 1 ou 2 pour choisir quelle carte défausser
-            if (choixCarteADefausser == 1) {
-                // Défausser la carte 1 et ajouter la carte 2 à la main de l'Avatar
-                plateauDeJeu.getPioche().ajouter(q1);
-                p.getJoueur().ajouterQuartierDansMain(q2);
-            } else {
-                // Défausser la carte 2 et ajouter la carte 1 à la main de l'Avatar
-                plateauDeJeu.getPioche().ajouter(q2);
-                p.getJoueur().ajouterQuartierDansMain(q1);
+            boolean possedeBibliotheque = false;
+
+            for (int i = 0; i < p.getJoueur().getCite().size(); i++) {
+                if (p.getJoueur().getCite().get(i).getNom().equalsIgnoreCase("bibliothèque")) {
+                    possedeBibliotheque = true;
+                    break;
+                }
             }
+
+            if (!possedeBibliotheque)
+            {
+                int choixCarteADefausser = random.nextInt(2) + 1; // Génère 1 ou 2 pour choisir quelle carte défausser
+                if (choixCarteADefausser == 1) {
+                    // Défausser la carte 1 et ajouter la carte 2 à la main de l'Avatar
+                    plateauDeJeu.getPioche().ajouter(q1);
+                    p.getJoueur().ajouterQuartierDansMain(q2);
+                } else {
+                    // Défausser la carte 2 et ajouter la carte 1 à la main de l'Avatar
+                    plateauDeJeu.getPioche().ajouter(q2);
+                    p.getJoueur().ajouterQuartierDansMain(q1);
+                }
+            }
+            else {
+                plateauDeJeu.getPioche().ajouter(q1);
+                plateauDeJeu.getPioche().ajouter(q2);
+            }
+
         }
     }
 
