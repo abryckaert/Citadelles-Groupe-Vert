@@ -111,25 +111,12 @@ public class Configuration {
             P1.ajouter(new Quartier("Hotel de ville", "COMMERCANT", 5));
         }
 
-        return new Pioche();
+        return P1;
     }
 
     public PlateauDeJeu configurationDeBase(Pioche p, int nombreDeJoueur, int nombrePersonnage){
 
-        PlateauDeJeu Pl = new PlateauDeJeu();
-
-
-        // ajout des personnages
-        Pl.ajouterPersonnage(Assassin);
-        Pl.ajouterPersonnage(Architecte);
-        Pl.ajouterPersonnage(Condottiere);
-        Pl.ajouterPersonnage(Eveque);
-        Pl.ajouterPersonnage(Magicienne);
-        Pl.ajouterPersonnage(Marchande);
-        Pl.ajouterPersonnage(Roi);
-        Pl.ajouterPersonnage(Voleur);
-
-        // ajout des merveilles
+        // ajout des merveilles dans la pioche
         p.ajouter(new Quartier("Bibliothèque", "MERVEILLE", 6));
         p.ajouter(new Quartier("Carrière", "MERVEILLE", 5));
         p.ajouter(new Quartier("Cours des Miracles", "MERVEILLE", 2));
@@ -145,9 +132,23 @@ public class Configuration {
         p.ajouter(new Quartier("Trésor Imperial", "MERVEILLE", 5));
         p.ajouter(new Quartier("Tripot", "MERVEILLE", 6));
 
-        for(int i=0 ; i< 100 ;i++){
-            p.melanger();
-        }
+        // mélanger la pioche
+        p.melanger();
+
+        // on crée le plateau
+        PlateauDeJeu Pl = new PlateauDeJeu(p);
+
+
+        // ajout des personnages
+        Pl.ajouterPersonnage(Assassin);
+        Pl.ajouterPersonnage(Architecte);
+        Pl.ajouterPersonnage(Condottiere);
+        Pl.ajouterPersonnage(Eveque);
+        Pl.ajouterPersonnage(Magicienne);
+        Pl.ajouterPersonnage(Marchande);
+        Pl.ajouterPersonnage(Roi);
+        Pl.ajouterPersonnage(Voleur);
+
         return Pl;
     }
 }

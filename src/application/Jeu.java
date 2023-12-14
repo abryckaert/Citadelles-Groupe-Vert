@@ -8,8 +8,6 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-import static application.Configuration.noms;
-
 public class Jeu {
     private int numeroConfiguration;
     private Random generateur;
@@ -90,19 +88,16 @@ public class Jeu {
     }
 
     private void reinitialisationPersonnages() {
-        for(int i=0 ; i< plateauDeJeu.getNbPersonnages() ; i++){
-            plateauDeJeu.getPersonnage(i).reintitialiser();
-        }
+       for (int i = 0; i<plateauDeJeu.getNbPersonnages(); i++){
+           plateauDeJeu.getPersonnage(i).setJoueur(null);
+       }
     }
 
     private void initialisation() {
-        Configuration config = new Configuration();
-        Pioche pioche = Configuration.nouvellePioche();
-        PlateauDeJeu plateauDeJeu = config.configurationDeBase(pioche, 4, 4);
 
         // ajouter les joueurs bot
         for(int k=1 ;k < 3 ;k++){
-            Joueur j = new Joueur(noms[k]);
+            Joueur j = new Joueur(Configuration.noms[k]);
             j.setAvatar();
             plateauDeJeu.ajouterJoueur(j);
         }
@@ -163,11 +158,11 @@ public class Jeu {
                 Joueur joueurActuel = plateauDeJeu.getJoueur(i);
 
                 // si c'est un joueur
-                if (!joueurActuel.isBot())
+                if (!joueurActuel.isAvatar())
                 {
                     // on lui montre les cartes disponibles
                     for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
-                        if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2)
+                        if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur()==null)
                         {
                             System.out.println(j + ". " + plateauDeJeu.getPersonnage(j).getNom());
                         }
@@ -182,7 +177,7 @@ public class Jeu {
                     // on met dans un tableau les cartes disponibles
                     ArrayList<Personnage> personnagesDisponibles = new ArrayList<>();
                     for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
-                        if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2)
+                        if (j != carteFaceCachee && j!=carteFaceVisible1 && j!=carteFaceVisible2 && plateauDeJeu.getPersonnage(j).getJoueur()==null)
                         {
                             personnagesDisponibles.add(plateauDeJeu.getPersonnage(j));
                         }
@@ -204,7 +199,7 @@ public class Jeu {
 
 
                 // si c'est un joueur
-                if (!joueurActuel.isBot())
+                if (!joueurActuel.isAvatar())
                 {
                     // on lui montre les cartes disponibles
                     for (int j = 0; j < plateauDeJeu.getNbPersonnages(); j++) {
@@ -253,17 +248,8 @@ public class Jeu {
                         plateauDeJeu.getPersonnage(i).getJoueur().retirerPieces(piecesVole);
                     }
 
-                    // On regarde si le joueur est un bot
-                    boolean JoueurEstBot = false;
-                    for (int j = 0; j < noms.length; j++) {
-                        if (plateauDeJeu.getPersonnage(i).getJoueur().getNom().equals(noms[j]))
-                        {
-                            JoueurEstBot = true;
-                        }
-                    }
-
                     // Si le joueur n'est pas un bot
-                    if (!JoueurEstBot) {
+                    if (!plateauDeJeu.getPersonnage(i).getJoueur().isAvatar()) {
                         // on perçoit les ressources
                         percevoirRessources(plateauDeJeu.getPersonnage(i));
 
@@ -293,7 +279,7 @@ public class Jeu {
                     }
 
                 }
-                System.out.println("Le joueur est assassiné, il ne fait donc rien");
+                System.out.println("Le personnage" + plateauDeJeu.getPersonnage(i).getNom() + " du joueur " +  plateauDeJeu.getPersonnage(i).getJoueur().getNom() +  " est assassiné, il ne fait donc rien");
             }
         }
     }
@@ -348,7 +334,7 @@ public class Jeu {
 
     private void percevoirRessourcesAvatar (Personnage p){
         Random random = new Random();
-        int choix = random.nextInt(2) + 1; // Génère 1 ou 2
+        int choix = random.nextInt(2); // Génère 1 ou 2
 
         if (choix == 1) {
             // Ajouter 2 pièces au trésor de l'Avatar
@@ -373,7 +359,29 @@ public class Jeu {
 
 
     private void construire(Personnage p) {
-        // Corps vide pour l'instant
+
+        // Demander si on construit un quartier
+        System.out.println("Voulez-vous construire un quartier ?");
+        boolean construireQuartierON = Interaction.lireOuiOuNon();
+
+        if (construireQuartierON) {
+            ArrayList<Quartier> quartiersJoueur = p.getJoueur().getMainJoueur();
+
+            // Montrer les quartiers que l'on a dans notre main
+            System.out.println("Votre main :");
+            for (Quartier quartier : quartiersJoueur) {
+                System.out.println(quartier.getNom() + " - " + quartier.getCoutConstruction() + " pièces");
+            }
+
+            //if (!quartiersConstruisibles.isEmpty()) {
+                // Choisir un quartier aléatoirement parmi les construisibles
+                //int indexQuartierChoisi = random.nextInt(quartiersConstruisibles.size());
+                //Quartier quartierChoisi = quartiersConstruisibles.get(indexQuartierChoisi);
+
+                // Construire le quartier choisi
+                //p.construire(quartierChoisi);
+            //}
+        }
     }
 
     private void construireAvatar (Personnage p){
@@ -419,14 +427,14 @@ public class Jeu {
                 }
             }
 
-            // Check du nombre de quartier dans la pioche et de la possibilité d'un personnage de finir
+            /*// Check du nombre de quartier dans la pioche et de la possibilité d'un personnage de finir
             if(plateauDeJeu.getPioche().nombreQuartiersDansPioche()==0){
 
                 for(int i=0 ; i <plateauDeJeu.getNbJoueurs() ; i++){
 
                 }
 
-            }
+            }*/
 
 
             return true;

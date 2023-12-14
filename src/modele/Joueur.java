@@ -12,8 +12,7 @@ public class Joueur {
     private boolean possedeCouronne;
     private Personnage monPersonnage;
     private boolean avatar;
-
-    private boolean isBot;
+    private Merveilles merveillePossede;
 
     public Joueur(String nom)
     {
@@ -23,10 +22,10 @@ public class Joueur {
         this.cite = new ArrayList<Quartier>();
         this.mainJoueur = new ArrayList<Quartier>();
         this.monPersonnage = null;
-        this.isBot = true;
+        this.merveillePossede = new Merveilles();
     }
 
-    public Joueur(String nom, boolean isBot)
+    public Joueur(String nom, boolean avatar)
     {
         this.nom = nom;
         tresor = 0;
@@ -34,9 +33,12 @@ public class Joueur {
         this.cite = new ArrayList<Quartier>();
         this.mainJoueur = new ArrayList<Quartier>();
         this.monPersonnage = null;
-        this.isBot = isBot;
+        this.avatar = avatar;
     }
 
+    public Merveilles getMerveilles(){
+        return merveillePossede;
+    }
     public String getNom() {
         return nom;
     }
@@ -62,10 +64,6 @@ public class Joueur {
 
     public void setPossedeCouronne(boolean possedeCouronne) {
         this.possedeCouronne = possedeCouronne;
-    }
-
-    public boolean isBot() {
-        return isBot;
     }
 
     public void ajouterPieces(int pieces)
@@ -184,7 +182,5 @@ public class Joueur {
     public boolean isAvatar(){
         return avatar;
     }
-    public Personnage getAllPersonnage(){
-        return this.monPersonnage;
-    }
+
 }
