@@ -30,9 +30,6 @@ public class Roi extends Personnage {
                         getPlateau().getJoueur(i).setPossedeCouronne(false);
                     }
                 }
-                if(!getJoueur().getPersonnage().getNom().equals("Sorciere")){
-                    System.out.println("Je prends la couronne");
-                }
                 super.getJoueur().setPossedeCouronne(true);
             }
             else {

@@ -96,7 +96,6 @@ public class Condottiere extends modele.Personnage {
 
                 System.out.println("On retire " + quartierRetire.getNom() + " à " + getPlateau().getJoueur(choixUtilisateurJoueur-1).getNom());
             }
-            scanner.close();
         }
          else {
             System.out.println("Vous avez choisi de ne pas utiliser votre pouvoir de destruction.");

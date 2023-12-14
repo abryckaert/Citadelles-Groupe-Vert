@@ -12,7 +12,6 @@ public class Joueur {
     private boolean possedeCouronne;
     private Personnage monPersonnage;
     private boolean avatar;
-    private Merveilles merveillePossede;
 
     public Joueur(String nom)
     {
