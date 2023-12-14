@@ -79,7 +79,7 @@ public class Condottiere extends modele.Personnage {
                     try {
                         choixUtilisateurQuartier = Integer.parseInt(scanner.nextLine());
                         // Vérifier si la réponse est entre 0 et le nombre de joueurs inclus
-                        if (choixUtilisateurQuartier > 0 && choixUtilisateurQuartier <= getPlateau().getJoueur(choixUtilisateurJoueur - 1).nbQuartiersDansCite() && getJoueur().getTresor() >= getPlateau().getJoueur(choixUtilisateurJoueur -1).getCite().get(choixUtilisateurQuartier -1).getCoutConstruction()) {
+                        if (choixUtilisateurQuartier > 0 && choixUtilisateurQuartier <= getPlateau().getJoueur(choixUtilisateurJoueur - 1).nbQuartiersDansCite() && getJoueur().getTresor() >= getPlateau().getJoueur(choixUtilisateurJoueur -1).getCite().get(choixUtilisateurQuartier -1).getCoutConstruction() && !getPlateau().getJoueur(choixUtilisateurJoueur - 1).getCite().get(choixUtilisateurQuartier - 1).getNom().equalsIgnoreCase("donjon")) {
                             break; // Sortir de la boucle si la réponse est valide
                         } else if (getJoueur().getTresor() < getPlateau().getJoueur(choixUtilisateurJoueur -1).getCite().get(choixUtilisateurQuartier-1).getCoutConstruction()) {
                             System.out.println("Votre trésor n'est pas suffisant");

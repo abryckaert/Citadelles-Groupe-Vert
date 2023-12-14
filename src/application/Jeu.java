@@ -199,6 +199,8 @@ public class Jeu {
     private void reinitialisationPersonnages() {
        for (int i = 0; i<plateauDeJeu.getNbPersonnages(); i++){
            plateauDeJeu.getPersonnage(i).setJoueur(null);
+           plateauDeJeu.getPersonnage(i).setNonAssassine();
+           plateauDeJeu.getPersonnage(i).setNonVole();
        }
     }
 
@@ -601,10 +603,8 @@ public class Jeu {
                 System.out.println("Quel quartier voulez-vous construire ?");
                 int quartierAConstruire = Interaction.lireUnEntier(1,p.getJoueur().nbQuartiersDansMain());
                 Quartier quartierChoisi = p.getJoueur().getMainJoueur().get(quartierAConstruire-1);
-                p.construire(quartierChoisi);
-
-                // Envoyer un message de confirmation
-                System.out.println("Vous avez bien construit le quartier " + quartierChoisi.getNom());
+                if (p.getJoueur().getTresor() >= quartierChoisi.getCoutConstruction())
+                {p.construire(quartierChoisi);}
             } else {
                 System.out.println("Le joueur "+ p.getJoueur().getNom() + " n'a pas construit de quartier");
                 break;
@@ -635,7 +635,8 @@ public class Jeu {
                 Quartier quartierChoisi = quartiersConstruisibles.get(indexQuartierChoisi);
 
                 // Construire le quartier choisi
-                p.construire(quartierChoisi);
+                if (p.getJoueur().getTresor() >= quartierChoisi.getCoutConstruction())
+                {p.construire(quartierChoisi);}
             }
         }
     }

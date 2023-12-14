@@ -67,6 +67,7 @@ public class Joueur {
         if (pieces >= 0)
         {
             this.tresor = tresor + pieces;
+
         }
         else
         {

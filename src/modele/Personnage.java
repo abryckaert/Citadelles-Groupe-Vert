@@ -67,13 +67,15 @@ public abstract class Personnage {
         this.estAssassine = true;
     }
 
+    public void setNonAssassine(){this.estAssassine = false;}
+
     public void setEstVole() {
         this.estVole = true;
     }
 
     public void ajouterPieces()
     {
-        if (joueur != null && !getEstAssassine())
+        if (!getEstAssassine())
         {
             joueur.ajouterPieces(2);
         }
@@ -99,6 +101,8 @@ public abstract class Personnage {
                     joueur.getMainJoueur().remove(i);
                 }
             }
+            // Envoyer un message de confirmation
+            System.out.println("Le joueur " + joueur.getNom() + " a bien construit le quartier " + nouveau.getNom());
         }
     }
 
@@ -121,7 +125,7 @@ public abstract class Personnage {
 
     public void reinitialiser()
     {
-       System.out.println("Le personnage " + this.getNom() + " est reinitialiser !");
+       //System.out.println("Le personnage " + this.getNom() + " est reinitialisé !");
         this.estAssassine = false;
         this.estVole = false;
     }
@@ -136,6 +140,9 @@ public abstract class Personnage {
         return tousLesPersonnnages;
     }
 
+    public void setNonVole() {
+        estVole = false;
+    }
 }
 
 
