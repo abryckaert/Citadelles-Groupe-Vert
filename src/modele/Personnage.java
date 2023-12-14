@@ -92,6 +92,13 @@ public abstract class Personnage {
         if (joueur != null && !getEstAssassine())
         {
             joueur.ajouterQuartierDansCite(nouveau);
+            joueur.retirerPieces(nouveau.getCoutConstruction());
+            for (int i = 0; i < joueur.nbQuartiersDansMain(); i++) {
+                if (joueur.getMainJoueur().get(i) == nouveau)
+                {
+                    joueur.getMainJoueur().remove(i);
+                }
+            }
         }
     }
 
