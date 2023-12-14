@@ -85,7 +85,117 @@ public class Jeu {
     }
 
     private void calculDesPoints() {
+        // COMMENT CALCULER LES POINTS ?
+        // - Coût total des bâtiments construits dans la cité.
+        // - Si 5 types de quartiers présents : +3 points
+        // - Si premier joueur à avoir complété sa cité : +4 pts
+        // - Si cité complétée après le premier joueur : +2 pts
+        // - Bonus liés à certaines merveilles
 
+        // tableau permettant de stocker les scores des joueurs
+        ArrayList<Integer> scores = new ArrayList<>();
+
+        // pour chaque joueur
+        for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+            boolean premierJoueurComplet = true;
+
+            // on rajoute le coût de construction de chaque bâtiment dans la cité
+            for (int j = 0; j < plateauDeJeu.getJoueur(i).getCite().size(); j++) {
+                scores.set(i, scores.get(i) + plateauDeJeu.getJoueur(i).getCite().get(j).getCoutConstruction());
+            }
+
+            // on regarde si les 5 types de bâtiments sont présents
+            boolean quartierNoblePresent = false;
+            boolean quartierCommercantPresent = false;
+            boolean quartierReligieuxPresent = false;
+            boolean quartierMilitairePresent = false;
+            boolean quartierMerveillePresent = false;
+
+            for (int j = 0; j < plateauDeJeu.getJoueur(i).getCite().size(); j++) {
+                switch (plateauDeJeu.getJoueur(i).getCite().get(j).getType().toLowerCase()){
+                    case "noble":
+                        quartierNoblePresent = true;
+                        break;
+                    case "commercant":
+                        quartierCommercantPresent = true;
+                        break;
+                    case "religieux":
+                        quartierReligieuxPresent = true;
+                        break;
+                    case "militaire":
+                        quartierMilitairePresent = true;
+                        break;
+                    case "merveille":
+                        quartierMerveillePresent = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // dans le cas où on a tous les types de quartiers, on rajoute 3 pts
+            if (quartierNoblePresent && quartierCommercantPresent && quartierReligieuxPresent && quartierMilitairePresent && quartierMerveillePresent)
+            {
+                scores.set(i,scores.get(i) + 3);
+            }
+
+            // premier joueur à avoir complété sa cité > +4
+            if (plateauDeJeu.getJoueur(i).getCite().size() >= 8 && premierJoueurComplet)
+            {
+                scores.set(i, scores.get(i) + 4);
+                premierJoueurComplet = false;
+            }
+
+            // tous les joueurs qui ont complété leur cité > +2
+            if (plateauDeJeu.getJoueur(i).getCite().size() >= 8 && !premierJoueurComplet)
+            {
+                scores.set(i, scores.get(i) + 2);
+            }
+
+            /* ----- EFFETS DES MERVEILLES ----- */
+
+            for (int j = 0; j < plateauDeJeu.getJoueur(i).getCite().size(); j++) {
+                switch (plateauDeJeu.getJoueur(i).getCite().get(j).getNom().toLowerCase())
+                {
+                    // On cherche si le Dracoport, la Fontaine aux Souhaits, la Salle des Cartes, la Statue Équestre, le Trésor Impérial sont présents
+                    case "dracoport":
+                        // +2 points
+                        scores.set(i, scores.get(i) + 2);
+                        break;
+                    case "fontaine aux souhaits":
+                        // +1 point par merveille
+                        for (int k = 0; k < plateauDeJeu.getJoueur(i).getCite().size(); k++) {
+                            if (plateauDeJeu.getJoueur(i).getCite().get(k).getType().equalsIgnoreCase("merveille"))
+                            {
+                                scores.set(i, scores.get(i) + 1);
+                            }
+                        }
+                        break;
+                    case "salle des cartes":
+                        // +1 point par carte dans la main
+                        scores.set(i, scores.get(i)+plateauDeJeu.getJoueur(i).getMainJoueur().size());
+                        break;
+                    case "statue équestre":
+                        // si le joueur a la couronne en fin de partie, +5 pts
+                        if (plateauDeJeu.getJoueur(i).isPossedeCouronne())
+                        {
+                            scores.set(i, scores.get(i) + 5);
+                        }
+                        break;
+                    case "trésor impérial":
+                        // +1 pt par pièce d'or dans le trésor du joueur
+                        scores.set(i, scores.get(i)+plateauDeJeu.getJoueur(i).getTresor());
+                        break;
+                    default:
+                        // on ne fait rien car ce n'est pas la merveille recherchée
+                        break;
+
+                }
+            }
+
+            // On affiche les points qu'ont obtenu chaque joueur
+            System.out.println("Le joueur " + plateauDeJeu.getJoueur(i).getNom() + " a obtenu " + scores.get(i) + " points !");
+        }
     }
 
     private void reinitialisationPersonnages() {

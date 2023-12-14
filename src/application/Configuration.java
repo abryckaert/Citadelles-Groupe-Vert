@@ -129,7 +129,7 @@ public class Configuration {
         p.ajouter(new Quartier("Manufacture", "MERVEILLE", 5));
         p.ajouter(new Quartier("Salle des Cartes", "MERVEILLE", 5));
         p.ajouter(new Quartier("Statue Equestre", "MERVEILLE", 3));
-        p.ajouter(new Quartier("Trésor Imperial", "MERVEILLE", 5));
+        p.ajouter(new Quartier("Trésor Impérial", "MERVEILLE", 5));
         p.ajouter(new Quartier("Tripot", "MERVEILLE", 6));
 
         // mélanger la pioche
