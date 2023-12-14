@@ -475,32 +475,39 @@ public class Jeu {
     private void construire(Personnage p) {
 
         // Demander si on construit un quartier
-        System.out.println("Voulez-vous construire un quartier ?");
-        boolean construireQuartierON = Interaction.lireOuiOuNon();
+        // avec la gestion des 3 possibilités de construire de l'Architecte
+        for (int i = 0; i < p.getNbPermisDeConstruire(); i++) {
+            System.out.println("Voulez-vous construire un quartier ?");
+            boolean construireQuartierON = Interaction.lireOuiOuNon();
 
-        if (construireQuartierON) {
-            ArrayList<Quartier> quartiersJoueur = p.getJoueur().getMainJoueur();
+            if (construireQuartierON) {
+                ArrayList<Quartier> quartiersJoueur = p.getJoueur().getMainJoueur();
 
-            // Montrer les quartiers que l'on a dans notre main
-            System.out.println("Votre main :");
-            int indiceQuartier = 1;
-            for (Quartier quartier : quartiersJoueur) {
-                System.out.println(indiceQuartier + " - " + quartier.getNom() + " - " + quartier.getCoutConstruction() + " pièces");
-                indiceQuartier++;
+                // Montrer les quartiers que l'on a dans notre main
+                System.out.println("Votre main :");
+                int indiceQuartier = 1;
+                for (Quartier quartier : quartiersJoueur) {
+                    System.out.println(indiceQuartier + " - " + quartier.getNom() + " - " + quartier.getCoutConstruction() + " pièces");
+                    indiceQuartier++;
+                }
+
+                // Montrer cb on a de pièces
+                System.out.println("Vous avez " + p.getJoueur().getTresor() + " pieces.");
+
+                // Construire le quartier choisi
+                System.out.println("Quel quartier voulez-vous construire ?");
+                int quartierAConstruire = Interaction.lireUnEntier(1,p.getJoueur().nbQuartiersDansMain());
+                Quartier quartierChoisi = p.getJoueur().getMainJoueur().get(quartierAConstruire-1);
+                p.construire(quartierChoisi);
+
+                // Envoyer un message de confirmation
+                System.out.println("Vous avez bien construit le quartier " + quartierChoisi.getNom());
+            } else {
+                System.out.println("Le joueur "+ p.getJoueur().getNom() + " n'a pas construit de quartier");
+                break;
             }
-
-            // Montrer cb on a de pièces
-            System.out.println("Vous avez " + p.getJoueur().getTresor() + " pieces.");
-
-            // Construire le quartier choisi
-            System.out.println("Quel quartier voulez-vous construire ?");
-            int quartierAConstruire = Interaction.lireUnEntier(1,p.getJoueur().nbQuartiersDansMain());
-            Quartier quartierChoisi = p.getJoueur().getMainJoueur().get(quartierAConstruire-1);
-            p.construire(quartierChoisi);
-
-            // Envoyer un message de confirmation
-            System.out.println("Vous avez bien construit le quartier " + quartierChoisi.getNom());
         }
+
     }
 
     private void construireAvatar (Personnage p){

@@ -63,7 +63,6 @@ public class Interaction {
             } else {
                 System.out.println("Erreur : Réponse invalide. Veuillez répondre par 'oui'/'non' ou 'o'/'n'.");
             }
-
         } while (true);
     }
 

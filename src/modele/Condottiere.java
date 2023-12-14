@@ -28,7 +28,7 @@ public class Condottiere extends modele.Personnage {
             }
         } while (true);
 
-        // Utiliser la réponse selon votre logique
+        // Si la réponse est oui, alors :
         if (reponse == 'o') {
 
             for (int i = 0; i < getPlateau().getNbJoueurs(); i++) {
@@ -71,7 +71,6 @@ public class Condottiere extends modele.Personnage {
             } else {
                 System.out.println("Quel quartier choisissez vous ?");
                 System.out.println("Votre trésor contient " +getJoueur().getTresor() + " pieces" );
-                //...
                 int choixUtilisateurQuartier;
 
                 do {

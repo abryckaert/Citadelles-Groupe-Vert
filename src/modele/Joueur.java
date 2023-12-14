@@ -22,7 +22,6 @@ public class Joueur {
         this.cite = new ArrayList<Quartier>();
         this.mainJoueur = new ArrayList<Quartier>();
         this.monPersonnage = null;
-        this.merveillePossede = new Merveilles();
     }
 
     public Joueur(String nom, boolean avatar)
@@ -36,9 +35,7 @@ public class Joueur {
         this.avatar = avatar;
     }
 
-    public Merveilles getMerveilles(){
-        return merveillePossede;
-    }
+
     public String getNom() {
         return nom;
     }
@@ -68,7 +65,7 @@ public class Joueur {
 
     public void ajouterPieces(int pieces)
     {
-        if (pieces > 0)
+        if (pieces >= 0)
         {
             this.tresor = tresor + pieces;
         }
@@ -80,7 +77,7 @@ public class Joueur {
 
     public void retirerPieces(int pieces)
     {
-        if (pieces > 0 && getTresor() > pieces)
+        if (pieces > 0 && getTresor() >= pieces)
         {
             this.tresor = tresor - pieces;
         }
