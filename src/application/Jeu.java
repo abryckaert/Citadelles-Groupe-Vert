@@ -491,13 +491,51 @@ public class Jeu {
                 Quartier q1 = plateauDeJeu.getPioche().piocher();
                 Quartier q2 = plateauDeJeu.getPioche().piocher();
                 Quartier q3 = plateauDeJeu.getPioche().piocher();
-                System.out.println("Vous avez échangé deux pièces d'or et pioché les quartiers " + q1.getNom() + " ," + q2.getNom() + " et " + q3.getNom() + ".");
+                System.out.println("Vous avez échangé deux pièces d'or contre les quartiers " + q1.getNom() + " ," + q2.getNom() + " et " + q3.getNom() + ".");
                 p.getJoueur().ajouterQuartierDansMain(q1);
                 p.getJoueur().ajouterQuartierDansMain(q2);
                 p.getJoueur().ajouterQuartierDansMain(q3);
             }
             else {
                 System.out.println("Vous n'avez pas récupéré de nouvelles cartes quartier.");
+            }
+        }
+
+        // ---- GESTION LABO -----
+
+        // Regarder si l'avatar possède la Merveille Laboratoire
+        boolean possedeLaboratoire = false;
+
+        for (int i = 0; i < p.getJoueur().getCite().size(); i++) {
+            if (p.getJoueur().getCite().get(i).getNom().equalsIgnoreCase("laboratoire")) {
+                possedeLaboratoire = true;
+                break;
+            }
+        }
+
+        // si le joueur possède le Laboratoire, on lui propose l'effet de la merveille
+        if (possedeLaboratoire)
+        {
+            System.out.println("Souhaitez-vous défausser une carte en échange de 2 pièces d'or ?");
+            boolean choixLabo = Interaction.lireOuiOuNon();
+
+            if (choixLabo)
+            {
+                // Montrer les quartiers que l'on a dans notre main
+                System.out.println("Votre main :");
+                int indiceQuartier = 1;
+                for (Quartier quartier : p.getJoueur().getMainJoueur()) {
+                    System.out.println(indiceQuartier + " - " + quartier.getNom() + " - " + quartier.getCoutConstruction() + " pièces");
+                    indiceQuartier++;
+                }
+                System.out.println("Quel quartier souhaitez-vous défausser ?");
+                int quartierChoisi = Interaction.lireUnEntier(1,indiceQuartier);
+                p.getJoueur().getMainJoueur().remove(quartierChoisi);
+                p.getJoueur().ajouterPieces(2);
+
+            }
+            else {
+                System.out.println("Vous n'avez pas récupéré de pièces d'or.");
             }
         }
     }
@@ -572,6 +610,35 @@ public class Jeu {
             }
             else {
                 System.out.println("L'avatar n'a pas récupéré de nouvelles cartes quartier.");
+            }
+        }
+
+        // ---- GESTION LABO -----
+
+        // Regarder si l'avatar possède la Merveille Laboratoire
+        boolean possedeLaboratoire = false;
+
+        for (int i = 0; i < p.getJoueur().getCite().size(); i++) {
+            if (p.getJoueur().getCite().get(i).getNom().equalsIgnoreCase("laboratoire")) {
+                possedeLaboratoire = true;
+                break;
+            }
+        }
+
+        // si le joueur possède le Laboratoire, on lui propose l'effet de la merveille
+        if (possedeLaboratoire)
+        {
+            boolean choixLabo = generateur.nextBoolean();
+
+            if (choixLabo)
+            {
+                int quartierChoisi = generateur.nextInt(1,p.getJoueur().nbQuartiersDansMain());
+                p.getJoueur().getMainJoueur().remove(quartierChoisi);
+                p.getJoueur().ajouterPieces(2);
+                System.out.println("L'avatar " + p.getJoueur().getNom() + " a perçu 2 pièces d'or grâce au Laboratoire");
+            }
+            else {
+                System.out.println("L'avatar " + p.getJoueur().getNom() + " n'a pas perçu de pièces d'or grâce au Laboratoire");
             }
         }
     }
