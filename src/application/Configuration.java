@@ -118,21 +118,6 @@ public class Configuration {
 
         PlateauDeJeu Pl = new PlateauDeJeu();
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Quel est votre nom ?");
-        String nom = scanner.nextLine();
-        boolean isBot = false;
-        Joueur J1 = new Joueur(nom, isBot);
-        J1.setAvatar();
-
-        Pl.ajouterJoueur(J1);
-
-        //Boucle d'ajout des joueurs
-        for(int k=1 ;k < nombreDeJoueur ;k++){
-            Joueur j = new Joueur(noms[k]);
-            j.setAvatar();
-            Pl.ajouterJoueur(j);
-        }
 
         // ajout des personnages
         Pl.ajouterPersonnage(Assassin);

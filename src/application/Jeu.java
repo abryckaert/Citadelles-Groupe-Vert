@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
+import static application.Configuration.noms;
+
 public class Jeu {
     private int numeroConfiguration;
     private Random generateur;
@@ -97,6 +99,21 @@ public class Jeu {
         Configuration config = new Configuration();
         Pioche pioche = Configuration.nouvellePioche();
         PlateauDeJeu plateauDeJeu = config.configurationDeBase(pioche, 4, 4);
+
+        // ajouter les joueurs bot
+        for(int k=1 ;k < 3 ;k++){
+            Joueur j = new Joueur(noms[k]);
+            j.setAvatar();
+            plateauDeJeu.ajouterJoueur(j);
+        }
+
+        // ajouter le joueur Joueur
+        System.out.println("Quel est votre nom ?");
+        String nom = Interaction.lireUneChaine();
+        boolean isBot = false;
+        Joueur J1 = new Joueur(nom, isBot);
+
+        plateauDeJeu.ajouterJoueur(J1);
 
         for (int i = 0; i<plateauDeJeu.getNbJoueurs(); i++){
             plateauDeJeu.getJoueur(i).ajouterPieces(2);
@@ -238,8 +255,8 @@ public class Jeu {
 
                     // On regarde si le joueur est un bot
                     boolean JoueurEstBot = false;
-                    for (int j = 0; j < Configuration.noms.length; j++) {
-                        if (plateauDeJeu.getPersonnage(i).getJoueur().getNom().equals(Configuration.noms[j]))
+                    for (int j = 0; j < noms.length; j++) {
+                        if (plateauDeJeu.getPersonnage(i).getJoueur().getNom().equals(noms[j]))
                         {
                             JoueurEstBot = true;
                         }
