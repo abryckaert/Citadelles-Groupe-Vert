@@ -1,5 +1,7 @@
 package modele;
 
+import controleur.Interaction;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -16,9 +18,7 @@ public class Assassin extends modele.Personnage{
             for (int i = 0; i <= plateau.getNbPersonnages()-1; i++) {
                 System.out.println(i+1 + ". " + plateau.getPersonnage(i).getNom());
             }
-            /*
-            modifiez l’état du personnage choisi (appel à setAssassine()).
-             */
+
         } else {
             System.out.println("Le plateau n'est pas défini pour l'assassin.");
         }

@@ -141,13 +141,13 @@ public class Configuration {
 
         // ajout des personnages
         Pl.ajouterPersonnage(Assassin);
+        Pl.ajouterPersonnage(Voleur);
+        Pl.ajouterPersonnage(Magicienne);
+        Pl.ajouterPersonnage(Roi);
+        Pl.ajouterPersonnage(Eveque);
+        Pl.ajouterPersonnage(Marchande);
         Pl.ajouterPersonnage(Architecte);
         Pl.ajouterPersonnage(Condottiere);
-        Pl.ajouterPersonnage(Eveque);
-        Pl.ajouterPersonnage(Magicienne);
-        Pl.ajouterPersonnage(Marchande);
-        Pl.ajouterPersonnage(Roi);
-        Pl.ajouterPersonnage(Voleur);
 
         return Pl;
     }

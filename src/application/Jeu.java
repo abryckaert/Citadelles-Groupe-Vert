@@ -112,8 +112,10 @@ public class Jeu {
 
         for (int i = 0; i<plateauDeJeu.getNbJoueurs(); i++){
             plateauDeJeu.getJoueur(i).ajouterPieces(2);
-            plateauDeJeu.getJoueur(i).ajouterQuartierDansCite(pioche.piocher());
-            plateauDeJeu.getJoueur(i).ajouterQuartierDansCite(pioche.piocher());
+            plateauDeJeu.getJoueur(i).ajouterQuartierDansMain(pioche.piocher());
+            plateauDeJeu.getJoueur(i).ajouterQuartierDansMain(pioche.piocher());
+            plateauDeJeu.getJoueur(i).ajouterQuartierDansMain(pioche.piocher());
+            plateauDeJeu.getJoueur(i).ajouterQuartierDansMain(pioche.piocher());
         }
 
         Random random = new Random();
@@ -131,7 +133,7 @@ public class Jeu {
         int carteFaceCachee = random3.nextInt(8);
 
         // Si les 3 nombres sont différents et que le roi n'est pas retourné face visible, alors on affiche le texte
-        if (carteFaceVisible2 != carteFaceVisible1 && carteFaceCachee != carteFaceVisible2 && carteFaceCachee != carteFaceVisible1 && carteFaceVisible1 != 6 && carteFaceVisible2 != 6) {
+        if (carteFaceVisible2 != carteFaceVisible1 && carteFaceCachee != carteFaceVisible2 && carteFaceCachee != carteFaceVisible1 && carteFaceVisible1 != 3 && carteFaceVisible2 != 3) {
             System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible1).getNom() + " \" a été retourné face visible !");
             System.out.println("Le personnage \" " + plateauDeJeu.getPersonnage(carteFaceVisible2).getNom() + " \" a été retourné face visible !");
             System.out.println("Un personnage a été écarté face cachée ! ");
@@ -279,7 +281,9 @@ public class Jeu {
                     }
 
                 }
-                System.out.println("Le personnage" + plateauDeJeu.getPersonnage(i).getNom() + " du joueur " +  plateauDeJeu.getPersonnage(i).getJoueur().getNom() +  " est assassiné, il ne fait donc rien");
+                else {
+                    System.out.println("Le personnage" + plateauDeJeu.getPersonnage(i).getNom() + " du joueur " +  plateauDeJeu.getPersonnage(i).getJoueur().getNom() +  " est assassiné, il ne fait donc rien");
+                }
             }
         }
     }
@@ -369,18 +373,23 @@ public class Jeu {
 
             // Montrer les quartiers que l'on a dans notre main
             System.out.println("Votre main :");
+            int indiceQuartier = 1;
             for (Quartier quartier : quartiersJoueur) {
-                System.out.println(quartier.getNom() + " - " + quartier.getCoutConstruction() + " pièces");
+                System.out.println(indiceQuartier + " - " + quartier.getNom() + " - " + quartier.getCoutConstruction() + " pièces");
+                indiceQuartier++;
             }
 
-            //if (!quartiersConstruisibles.isEmpty()) {
-                // Choisir un quartier aléatoirement parmi les construisibles
-                //int indexQuartierChoisi = random.nextInt(quartiersConstruisibles.size());
-                //Quartier quartierChoisi = quartiersConstruisibles.get(indexQuartierChoisi);
+            // Montrer cb on a de pièces
+            System.out.println("Vous avez " + p.getJoueur().getTresor() + " pieces.");
 
-                // Construire le quartier choisi
-                //p.construire(quartierChoisi);
-            //}
+            // Construire le quartier choisi
+            System.out.println("Quel quartier voulez-vous construire ?");
+            int quartierAConstruire = Interaction.lireUnEntier(1,p.getJoueur().nbQuartiersDansMain());
+            Quartier quartierChoisi = p.getJoueur().getMainJoueur().get(quartierAConstruire-1);
+            p.construire(quartierChoisi);
+
+            // Envoyer un message de confirmation
+            System.out.println("Vous avez bien construit le quartier " + quartierChoisi.getNom());
         }
     }
 
@@ -413,7 +422,23 @@ public class Jeu {
 
 
     private void gestionCouronne() {
-        // Corps vide pour l'instant
+        // on regarde si un joueur a le rôle de roi
+        Joueur nouveauRoi = null;
+        for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+            if (plateauDeJeu.getJoueur(i).getPersonnage() != null && plateauDeJeu.getJoueur(i).getPersonnage().getNom().equalsIgnoreCase("roi"))
+            {
+                nouveauRoi = plateauDeJeu.getJoueur(i);
+            }
+        }
+
+        // s'il y a un joueur avec le rôle de roi, on lui attribue la couronne et on la retire au préalable de tous les joueurs. Sinon rien ne change.
+        if (nouveauRoi != null)
+        {
+            for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+                plateauDeJeu.getJoueur(i).setPossedeCouronne(false);
+            }
+            nouveauRoi.setPossedeCouronne(true);
+        }
     }
 
     private boolean partieFinie() {
