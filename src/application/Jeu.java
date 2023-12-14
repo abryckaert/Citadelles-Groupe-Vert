@@ -97,6 +97,7 @@ public class Jeu {
 
         // pour chaque joueur
         for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
+            scores.add(i,0);
             boolean premierJoueurComplet = true;
 
             // on rajoute le coût de construction de chaque bâtiment dans la cité
