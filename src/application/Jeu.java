@@ -464,6 +464,40 @@ public class Jeu {
             }
 
         }
+
+        // ---- GESTION FORGE -----
+
+        // Regarder si le joueur possède la Merveille Forge
+        boolean possedeForge = false;
+
+        for (int i = 0; i < p.getJoueur().getCite().size(); i++) {
+            if (p.getJoueur().getCite().get(i).getNom().equalsIgnoreCase("forge")) {
+                possedeForge = true;
+                break;
+            }
+        }
+
+        // si le joueur possède la Forge, on lui propose l'effet de la merveille
+        if (possedeForge)
+        {
+            System.out.println("Souhaitez-vous payer 2 pièces d'or en échange de 3 cartes quartier ?");
+            boolean choixForge = Interaction.lireOuiOuNon();
+
+            if (choixForge)
+            {
+                p.getJoueur().retirerPieces(2);
+                Quartier q1 = plateauDeJeu.getPioche().piocher();
+                Quartier q2 = plateauDeJeu.getPioche().piocher();
+                Quartier q3 = plateauDeJeu.getPioche().piocher();
+                System.out.println("Vous avez échangé deux pièces d'or et pioché les quartiers " + q1.getNom() + " ," + q2.getNom() + " et " + q3.getNom() + ".");
+                p.getJoueur().ajouterQuartierDansMain(q1);
+                p.getJoueur().ajouterQuartierDansMain(q2);
+                p.getJoueur().ajouterQuartierDansMain(q3);
+            }
+            else {
+                System.out.println("Vous n'avez pas récupéré de nouvelles cartes quartier.");
+            }
+        }
     }
 
     private void percevoirRessourcesAvatar (Personnage p){
@@ -505,6 +539,38 @@ public class Jeu {
                 plateauDeJeu.getPioche().ajouter(q2);
             }
 
+        }
+
+        // ---- GESTION FORGE -----
+
+        // Regarder si l'avatar possède la Merveille Forge
+        boolean possedeForge = false;
+
+        for (int i = 0; i < p.getJoueur().getCite().size(); i++) {
+            if (p.getJoueur().getCite().get(i).getNom().equalsIgnoreCase("forge")) {
+                possedeForge = true;
+                break;
+            }
+        }
+
+        // si l'avatar possède la Forge, on lui propose l'effet de la merveille
+        if (possedeForge)
+        {
+            boolean choixForge = generateur.nextBoolean();
+            if (choixForge)
+            {
+                p.getJoueur().retirerPieces(2);
+                Quartier q1 = plateauDeJeu.getPioche().piocher();
+                Quartier q2 = plateauDeJeu.getPioche().piocher();
+                Quartier q3 = plateauDeJeu.getPioche().piocher();
+                System.out.println("L'avatar a pioché deux pièces d'or et pioché les quartiers " + q1.getNom() + " ," + q2.getNom() + " et " + q3.getNom() + ".");
+                p.getJoueur().ajouterQuartierDansMain(q1);
+                p.getJoueur().ajouterQuartierDansMain(q2);
+                p.getJoueur().ajouterQuartierDansMain(q3);
+            }
+            else {
+                System.out.println("L'avatar n'a pas récupéré de nouvelles cartes quartier.");
+            }
         }
     }
 
