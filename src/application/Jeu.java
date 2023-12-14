@@ -57,13 +57,12 @@ public class Jeu {
     // Méthodes privées
     private void afficherLesRegles(){
         System.out.println("Citadelles est un jeu de plateau créé en 2000 par Bruno Faidutti"
-                + "aux éditions Edge Entertainment. La présentation du jeu d´ecrite ici correspond à"
-                + "la quatrième édition. Vous trouverez sur Moodle le livret complet du jeu en version pdf."
+                + "aux éditions Edge Entertainment."
                 + "Deux à huit joueurs s’affrontent pour construire le plus rapidement possible la plus prestigieuse"
-                + "cité. Pour cela, chaque joueur devra construire des quartiers, ayant chacun des co^uts differents."
+                + "cité. Pour cela, chaque joueur devra construire des quartiers, ayant chacun des coûts differents."
                 + "Comme dans un jeu de rôle, chaque joueur doit se mettre dans la peau d’un personnage, à ceci"
                 + "près que les joueurs changent de personnage à chaque tour de jeu. Ces personnages ont chacun des"
-                + "pouvoirs particuliers : la meilleure strategie est de choisir un personnage au bon moment du jeu.");
+                + "pouvoirs particuliers : la meilleure stratégie est de choisir un personnage au bon moment du jeu.");
     }
 
     private void jouerPartie() {
@@ -94,11 +93,10 @@ public class Jeu {
 
         // tableau permettant de stocker les scores des joueurs
         ArrayList<Integer> scores = new ArrayList<>();
-
+        boolean premierJoueurComplet = true;
         // pour chaque joueur
         for (int i = 0; i < plateauDeJeu.getNbJoueurs(); i++) {
             scores.add(i,0);
-            boolean premierJoueurComplet = true;
 
             // on rajoute le coût de construction de chaque bâtiment dans la cité
             for (int j = 0; j < plateauDeJeu.getJoueur(i).getCite().size(); j++) {
@@ -146,9 +144,8 @@ public class Jeu {
                 scores.set(i, scores.get(i) + 4);
                 premierJoueurComplet = false;
             }
-
             // tous les joueurs qui ont complété leur cité > +2
-            if (plateauDeJeu.getJoueur(i).getCite().size() >= 8 && !premierJoueurComplet)
+            else if (plateauDeJeu.getJoueur(i).getCite().size() >= 8 && !premierJoueurComplet)
             {
                 scores.set(i, scores.get(i) + 2);
             }
