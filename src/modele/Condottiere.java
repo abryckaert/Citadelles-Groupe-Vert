@@ -83,6 +83,8 @@ public class Condottiere extends modele.Personnage {
                             break; // Sortir de la boucle si la réponse est valide
                         } else if (getJoueur().getTresor() < getPlateau().getJoueur(choixUtilisateurJoueur -1).getCite().get(choixUtilisateurQuartier-1).getCoutConstruction()) {
                             System.out.println("Votre trésor n'est pas suffisant");
+                        } else if (getPlateau().getJoueur(choixUtilisateurJoueur - 1).getCite().get(choixUtilisateurQuartier - 1).getNom().equalsIgnoreCase("donjon")) {
+                            System.out.println("Vous avez essayé de retirer le Donjon, or c'est impossible");
                         } else {
                             System.out.println("Réponse invalide. Veuillez entrer un chiffre entre 1 et " + getPlateau().getJoueur(choixUtilisateurJoueur- 1).nbQuartiersDansCite());
                         }
@@ -136,7 +138,13 @@ public class Condottiere extends modele.Personnage {
                 int choixQuartier = random.nextInt(joueurCible.nbQuartiersDansCite());
 
                 Quartier quartierCible = citeJoueur.get(choixQuartier);
-                joueurCible.retirerQuartierDansCite(quartierCible.getNom());
+
+                do {
+                    joueurCible.retirerQuartierDansCite(quartierCible.getNom());
+                }
+                while (!quartierCible.getNom().equalsIgnoreCase("donjon"));
+
+
 
                 System.out.println("L'avatar a détruit le quartier " + quartierCible.getNom() + " appartenant à " + joueurCible.getNom());
             } else {
