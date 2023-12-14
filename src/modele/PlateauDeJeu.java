@@ -15,6 +15,14 @@ public class PlateauDeJeu {
         pioche = new Pioche();
     }
 
+    public PlateauDeJeu(Pioche pioche)
+    {
+        this.listeJoueurs = new Joueur[9];
+        this.listePersonnages = new Personnage[9];
+        this.nbPersonnages = this.nbJoueurs = 0;
+        this.pioche = pioche;
+    }
+
     public PlateauDeJeu getPlateau(){
         return this;
     }

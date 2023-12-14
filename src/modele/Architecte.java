@@ -6,11 +6,16 @@ public class Architecte extends modele.Personnage{
     }
     @Override
     public void utiliserPouvoir() {
-
-
+        // Aucun pouvoir particulier
     }
+
+
+    public void utiliserPouvoirAvatar() {
+        // idem
+    }
+
     @Override
-    public  void percevoirRessourcesSpecifiques() {
+    public void percevoirRessourcesSpecifiques() {
         Quartier cartePioche1;
         Quartier cartePioche2;
         cartePioche1 = getPlateau().getPioche().piocher();
@@ -20,3 +25,4 @@ public class Architecte extends modele.Personnage{
 
     }
 }
+

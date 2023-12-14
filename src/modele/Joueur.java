@@ -11,6 +11,7 @@ public class Joueur {
     private ArrayList<Quartier> mainJoueur;
     private boolean possedeCouronne;
     private Personnage monPersonnage;
+    private boolean avatar;
 
     public Joueur(String nom)
     {
@@ -22,10 +23,21 @@ public class Joueur {
         this.monPersonnage = null;
     }
 
+    public Joueur(String nom, boolean avatar)
+    {
+        this.nom = nom;
+        tresor = 0;
+        possedeCouronne = false;
+        this.cite = new ArrayList<Quartier>();
+        this.mainJoueur = new ArrayList<Quartier>();
+        this.monPersonnage = null;
+        this.avatar = avatar;
+    }
+
+
     public String getNom() {
         return nom;
     }
-
     public int getTresor() {
         return tresor;
     }
@@ -38,7 +50,7 @@ public class Joueur {
         return mainJoueur;
     }
 
-    public boolean getPossedeCouronne() {
+    public boolean isPossedeCouronne() {
         return possedeCouronne;
     }
 
@@ -52,9 +64,10 @@ public class Joueur {
 
     public void ajouterPieces(int pieces)
     {
-        if (pieces > 0)
+        if (pieces >= 0)
         {
             this.tresor = tresor + pieces;
+
         }
         else
         {
@@ -64,7 +77,7 @@ public class Joueur {
 
     public void retirerPieces(int pieces)
     {
-        if (pieces > 0 && getTresor() > pieces)
+        if (pieces > 0 && getTresor() >= pieces)
         {
             this.tresor = tresor - pieces;
         }
@@ -160,6 +173,11 @@ public class Joueur {
         // vide l'arraylist cité
         cite.clear();
     }
-
+    public void setAvatar(){
+        this.avatar=true;
+    }
+    public boolean isAvatar(){
+        return avatar;
+    }
 
 }

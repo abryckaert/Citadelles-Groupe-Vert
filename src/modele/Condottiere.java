@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Condottiere extends modele.Personnage {
@@ -27,7 +28,7 @@ public class Condottiere extends modele.Personnage {
             }
         } while (true);
 
-        // Utiliser la réponse selon votre logique
+        // Si la réponse est oui, alors :
         if (reponse == 'o') {
 
             for (int i = 0; i < getPlateau().getNbJoueurs(); i++) {
@@ -70,7 +71,6 @@ public class Condottiere extends modele.Personnage {
             } else {
                 System.out.println("Quel quartier choisissez vous ?");
                 System.out.println("Votre trésor contient " +getJoueur().getTresor() + " pieces" );
-                //...
                 int choixUtilisateurQuartier;
 
                 do {
@@ -79,10 +79,12 @@ public class Condottiere extends modele.Personnage {
                     try {
                         choixUtilisateurQuartier = Integer.parseInt(scanner.nextLine());
                         // Vérifier si la réponse est entre 0 et le nombre de joueurs inclus
-                        if (choixUtilisateurQuartier > 0 && choixUtilisateurQuartier <= getPlateau().getJoueur(choixUtilisateurJoueur - 1).nbQuartiersDansCite() && getJoueur().getTresor() >= getPlateau().getJoueur(choixUtilisateurJoueur -1).getCite().get(choixUtilisateurQuartier -1).getCoutConstruction()) {
+                        if (choixUtilisateurQuartier > 0 && choixUtilisateurQuartier <= getPlateau().getJoueur(choixUtilisateurJoueur - 1).nbQuartiersDansCite() && getJoueur().getTresor() >= getPlateau().getJoueur(choixUtilisateurJoueur -1).getCite().get(choixUtilisateurQuartier -1).getCoutConstruction() && !getPlateau().getJoueur(choixUtilisateurJoueur - 1).getCite().get(choixUtilisateurQuartier - 1).getNom().equalsIgnoreCase("donjon")) {
                             break; // Sortir de la boucle si la réponse est valide
                         } else if (getJoueur().getTresor() < getPlateau().getJoueur(choixUtilisateurJoueur -1).getCite().get(choixUtilisateurQuartier-1).getCoutConstruction()) {
                             System.out.println("Votre trésor n'est pas suffisant");
+                        } else if (getPlateau().getJoueur(choixUtilisateurJoueur - 1).getCite().get(choixUtilisateurQuartier - 1).getNom().equalsIgnoreCase("donjon")) {
+                            System.out.println("Vous avez essayé de retirer le Donjon, or c'est impossible");
                         } else {
                             System.out.println("Réponse invalide. Veuillez entrer un chiffre entre 1 et " + getPlateau().getJoueur(choixUtilisateurJoueur- 1).nbQuartiersDansCite());
                         }
@@ -96,7 +98,6 @@ public class Condottiere extends modele.Personnage {
 
                 System.out.println("On retire " + quartierRetire.getNom() + " à " + getPlateau().getJoueur(choixUtilisateurJoueur-1).getNom());
             }
-            scanner.close();
         }
          else {
             System.out.println("Vous avez choisi de ne pas utiliser votre pouvoir de destruction.");
@@ -115,4 +116,44 @@ public class Condottiere extends modele.Personnage {
         }
         System.out.println("Vos batiments militaire vous rapporte " + nombreQuartierMiliraire);
     }
+    public void utiliserPouvoirAvatar(){
+
+        Random random = new Random();
+        boolean utiliserPouvoir = random.nextBoolean();
+
+        if (utiliserPouvoir) {
+            int nombreDeJoueurs = getPlateau().getNbJoueurs();
+
+            // Choisir un joueur au hasard (autre que soi-même)
+            int choixJoueur;
+            do {
+                choixJoueur = random.nextInt(nombreDeJoueurs);
+            } while (choixJoueur == this.getRang()); // Supposons que getJoueur() renvoie l'indice du joueur actuel
+
+            Joueur joueurCible = getPlateau().getJoueur(choixJoueur);
+            ArrayList<Quartier> citeJoueur = joueurCible.getCite();
+
+            if (!citeJoueur.isEmpty()) {
+                // Choisir un quartier au hasard dans la cité du joueur ciblé
+                int choixQuartier = random.nextInt(joueurCible.nbQuartiersDansCite());
+
+                Quartier quartierCible = citeJoueur.get(choixQuartier);
+
+                do {
+                    joueurCible.retirerQuartierDansCite(quartierCible.getNom());
+                }
+                while (!quartierCible.getNom().equalsIgnoreCase("donjon"));
+
+
+
+                System.out.println("L'avatar a détruit le quartier " + quartierCible.getNom() + " appartenant à " + joueurCible.getNom());
+            } else {
+                System.out.println("Le joueur ciblé n'a pas de quartiers à détruire.");
+            }
+        } else {
+            System.out.println("L'avatar a choisi de ne pas utiliser son pouvoir de destruction.");
+        }
+    }
+
 }
+

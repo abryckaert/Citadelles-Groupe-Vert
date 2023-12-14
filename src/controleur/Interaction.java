@@ -38,23 +38,23 @@ public class Interaction {
 
             i = scanner.nextInt();
 
-            if (i < borneMin || i >= borneMax) {
-                System.out.println("Erreur : L'entier doit être dans l'intervalle [" + borneMin + ", " + (borneMax) + "[");
+            if (i < borneMin || i > borneMax) {
+                System.out.println("Erreur : L'entier doit être dans l'intervalle [" + borneMin + ", " + (borneMax) + "]");
             }
 
-        } while (i < borneMin || i >= borneMax);
+        } while (i < borneMin || i > borneMax);
 
         return i;
     }
 
     // lit les réponses "oui", "non", "o" ou "n" et renvoie un booléen
     public static boolean lireOuiOuNon() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         String reponse;
 
         do {
             System.out.print("Veuillez répondre par 'oui'/'non' ou 'o'/'n' : ");
-            reponse = scanner.nextLine().toLowerCase();
+            reponse = sc.nextLine().toLowerCase();
 
             if (reponse.equals("oui") || reponse.equals("o")) {
                 return true;
@@ -63,7 +63,6 @@ public class Interaction {
             } else {
                 System.out.println("Erreur : Réponse invalide. Veuillez répondre par 'oui'/'non' ou 'o'/'n'.");
             }
-
         } while (true);
     }
 

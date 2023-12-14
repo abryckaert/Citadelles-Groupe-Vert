@@ -1,6 +1,9 @@
 package modele;
 
-public class Personnage {
+import java.util.AbstractList;
+import java.util.ArrayList;
+
+public abstract class Personnage {
     private String nom;
     private int rang;
     private String caracteristiques;
@@ -64,13 +67,15 @@ public class Personnage {
         this.estAssassine = true;
     }
 
+    public void setNonAssassine(){this.estAssassine = false;}
+
     public void setEstVole() {
         this.estVole = true;
     }
 
     public void ajouterPieces()
     {
-        if (joueur != null && !getEstAssassine())
+        if (!getEstAssassine())
         {
             joueur.ajouterPieces(2);
         }
@@ -89,6 +94,15 @@ public class Personnage {
         if (joueur != null && !getEstAssassine())
         {
             joueur.ajouterQuartierDansCite(nouveau);
+            joueur.retirerPieces(nouveau.getCoutConstruction());
+            for (int i = 0; i < joueur.nbQuartiersDansMain(); i++) {
+                if (joueur.getMainJoueur().get(i) == nouveau)
+                {
+                    joueur.getMainJoueur().remove(i);
+                }
+            }
+            // Envoyer un message de confirmation
+            System.out.println("Le joueur " + joueur.getNom() + " a bien construit le quartier " + nouveau.getNom());
         }
     }
 
@@ -111,9 +125,24 @@ public class Personnage {
 
     public void reinitialiser()
     {
-        joueur = null;
-        estAssassine = false;
-        estVole = false;
+       //System.out.println("Le personnage " + this.getNom() + " est reinitialisé !");
+        this.estAssassine = false;
+        this.estVole = false;
     }
 
+    public abstract void utiliserPouvoirAvatar();
+    public ArrayList<Personnage> getAllPersonnage() {
+        ArrayList<Personnage> tousLesPersonnnages = new ArrayList<Personnage>();
+        
+        for (int i = 0; i < plateau.getNbPersonnages(); i++) {
+            tousLesPersonnnages.add(plateau.getPersonnage(i));
+        }
+        return tousLesPersonnnages;
+    }
+
+    public void setNonVole() {
+        estVole = false;
+    }
 }
+
+
