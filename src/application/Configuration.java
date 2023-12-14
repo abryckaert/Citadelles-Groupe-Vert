@@ -119,7 +119,7 @@ public class Configuration {
         // ajout des merveilles dans la pioche
         p.ajouter(new Quartier("Bibliothèque", "MERVEILLE", 6));
         p.ajouter(new Quartier("Carrière", "MERVEILLE", 5));
-        p.ajouter(new Quartier("Cours des Miracles", "MERVEILLE", 2));
+        p.ajouter(new Quartier("Cour des Miracles", "MERVEILLE", 2));
         p.ajouter(new Quartier("Donjon", "MERVEILLE", 3));
         p.ajouter(new Quartier("Dracoport", "MERVEILLE", 6));
         p.ajouter(new Quartier("Ecole de Magie", "MERVEILLE", 6));

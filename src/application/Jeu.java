@@ -85,6 +85,7 @@ public class Jeu {
     }
 
     private void calculDesPoints() {
+
     }
 
     private void reinitialisationPersonnages() {
@@ -96,7 +97,7 @@ public class Jeu {
     private void initialisation() {
 
         // ajouter les joueurs bot
-        for(int k=1 ;k < 3 ;k++){
+        for(int k=1 ;k < 4 ;k++){
             Joueur j = new Joueur(Configuration.noms[k]);
             j.setAvatar();
             plateauDeJeu.ajouterJoueur(j);
@@ -240,6 +241,7 @@ public class Jeu {
         for (int i = 0; i < plateauDeJeu.getNbPersonnages(); i++) {
             if (plateauDeJeu.getPersonnage(i).getJoueur() != null)
             {
+                System.out.println(plateauDeJeu.getPersonnage(i).getJoueur().getNom() + " possède le personnnage " + plateauDeJeu.getPersonnage(i).getNom());
                 // si le personnage n'est pas assassiné
                 if (!plateauDeJeu.getPersonnage(i).getEstAssassine()) {
                     // si le personnage est volé
@@ -282,7 +284,7 @@ public class Jeu {
 
                 }
                 else {
-                    System.out.println("Le personnage" + plateauDeJeu.getPersonnage(i).getNom() + " du joueur " +  plateauDeJeu.getPersonnage(i).getJoueur().getNom() +  " est assassiné, il ne fait donc rien");
+                    System.out.println("Le personnage " + plateauDeJeu.getPersonnage(i).getNom() + " du joueur " +  plateauDeJeu.getPersonnage(i).getJoueur().getNom() +  " est assassiné, il ne fait donc rien");
                 }
             }
         }
