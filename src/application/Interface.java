@@ -1,4 +1,4 @@
-import application.Jeu;
+package application;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class Interface extends JFrame {
     public Interface() {
         // Charger l'image de fond
         try {
-            backgroundImage = new ImageIcon("C:\\\\Users\\\\antho\\\\IdeaProjects\\\\Citadelles-Groupe-Vert\\\\src\\\\images\\\\background.png").getImage();
+            backgroundImage = new ImageIcon("C:\\Users\\lucil\\Documents\\GitHub\\Citadelles-Groupe-Vert\\src\\images\\background.png").getImage();
         } catch (Exception e) {
             e.printStackTrace();
         }

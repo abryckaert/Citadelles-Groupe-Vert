@@ -1,4 +1,5 @@
 import application.Configuration;
+import application.Interface;
 import application.Jeu;
 import modele.*;
 import test.*;
